@@ -4,12 +4,12 @@
   - [Client Requirements](#client-requirements)
   - [Design Decisions](#design-decisions)
     - [Execution](#execution)
-  - [Vue Instructions](#vue-instructions)
-    - [Recommended IDE Setup](#recommended-ide-setup)
-    - [Customize configuration](#customize-configuration)
+  - [Running locally](#running-locally)
     - [Project Setup](#project-setup)
-      - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
-      - [Compile and Minify for Production](#compile-and-minify-for-production)
+    - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
+    - [Compile and Minify for Production](#compile-and-minify-for-production)
+    - [Run on Local HTTP Server](#run-on-local-http-server)
+    - [Commit and Push to GitHub](#commit-and-push-to-github)
 
 ## Client Requirements
 
@@ -19,10 +19,9 @@
 
 ## Design Decisions
 
-**Frontend:** Vue with TypeScript, HTML, and SCSS  
+**Frontend:** Vue  
 **Backend:** Firebase  
 **Database:** Cloud Firestore  
-**Plugins:** VueQuill  
 
 - The main page of this website should include some floating animated objects with physics and are interactable with a mouse object, such as through collision or other physics.
 - The website will have two account types: user and admin.
@@ -36,7 +35,7 @@
 ### Execution
 
 1. Set up a development environment with the necessary frontend technologies installed.
-2. Design and implement the frontend of the website using Vue/React/Angular with TypeScript, HTML, and SCSS.
+2. Design and implement the frontend of the website using Vue.
 3. Set up a Firebase project and enable Cloud Firestore as the database.
 4. Configure Firebase Authentication to allow user authentication and authorization.
 5. Implement the necessary Firebase Authentication and Cloud Firestore rules to handle user authentication, article creation, and article retrieval.
@@ -45,32 +44,36 @@
 8. Configure the website to use a custom domain name.
 9. Launch the website and monitor its performance, making any necessary adjustments to ensure scalability and maintainability.
 
-## Vue Instructions
+## Running locally
 
-This template should help get you started developing with Vue 3 in Vite.
-
-### Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-### Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+After cloning the repository to the local machine, these makefile instructions can be used for development.
 
 ### Project Setup
 
 ```sh
-npm install
+make install
 ```
 
-#### Compile and Hot-Reload for Development
+### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+make dev
 ```
 
-#### Compile and Minify for Production
+### Compile and Minify for Production
 
 ```sh
-npm run build
+make build
+```
+
+### Run on Local HTTP Server
+
+```sh
+make server
+```
+
+### Commit and Push to GitHub
+
+```sh
+make git
 ```
