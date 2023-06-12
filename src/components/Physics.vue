@@ -1,4 +1,5 @@
-<script lang="ts">
+<script>
+
   import Matter from 'matter-js';
 
   export default {
@@ -43,7 +44,7 @@
         Bodies.rectangle(-offset, 300, 50.5, 600.5 + 2 * offset, options)
       ]);
 
-      const stack = Composites.stack(20, 20, 10, 4, 0, 0, function(x: number, y: number) {
+      const stack = Composites.stack(20, 20, 10, 4, 0, 0, function(x, y) {
         if (Common.random() > 0.35) {
           const box = Bodies.rectangle(x, y, 64, 64, {
             density: 0.0005,
@@ -121,24 +122,29 @@
     },
     data() {
       return {
-        engine: null as any,
-        runner: null as any,
-        render: null as any,
-        canvas: null as any
+        engine: null,
+        runner: null,
+        render: null,
+        canvas: null
       };
     }
   };
+
 </script>
 
 <template>
+
   <div ref="scene"></div>
+
 </template>
 
-<style scoped lang="scss">
+<style scoped>
+
   #app {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
 </style>

@@ -1,47 +1,30 @@
-<template>
-  <div>
-    <h1 class="header">{{ selectedScene ? selectedScene + ' Demo' : 'Choose the Demo' }}</h1>
+<script setup>
 
-    <div class="body">
-      <div class="scene-list">
-        <label v-for="(scene, index) in scenes" :key="index">
-          <input type="radio" :value="scene" :checked="selectedScene === scene" @change="selectScene(scene)">
-          {{ scene }}
-        </label>
-      </div>
+  import { RouterLink, RouterView } from 'vue-router'
 
-      <div class="demo">
-        <component :is="getSelectedSceneComponent" v-if="selectedScene" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-  import { computed, ref } from 'vue';
-  import BlogEditor from './components/BlogEditor.vue';
-  import Physics from './components/Physics.vue';
-
-  const scenes = ['Blog', 'Physics']; // Add other scene names here
-
-  const selectedScene = ref('');
-
-  const getSelectedSceneComponent = computed<any>(() => {
-    if (selectedScene.value === 'Blog') {
-      return BlogEditor;
-    } else if (selectedScene.value === 'Physics') {
-      return Physics;
-    }
-    // Add other scene components here
-  });
-
-  function selectScene(scene: string) {
-    selectedScene.value = scene;
-  }
 </script>
 
+<template>
 
-<style scoped lang="scss">
+  <h1 class="header">Choose the Demo</h1>
+
+  <div class="body">
+
+    <div class="scene-list">
+      <RouterLink to="/blog">Blog</RouterLink>
+      <RouterLink to="/physics">Physics</RouterLink>
+    </div>
+
+    <div class="demo">
+      <RouterView />
+    </div>
+    
+  </div>
+
+</template>
+
+<style scoped>
+
   .header {
     position: sticky;
     margin-bottom: 5vh;
@@ -76,5 +59,5 @@
     justify-content: center;
     align-items: center;
   }
+  
 </style>
-
