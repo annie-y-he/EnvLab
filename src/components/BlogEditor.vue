@@ -4,15 +4,13 @@
   import '@vueup/vue-quill/dist/vue-quill.bubble.css';
 </script>
 
-
-
 <template>
   <div class="editor">
     <QuillEditor theme="snow" toolbar="full" />
   </div>
 </template>
 
-<style  lang="scss">
+<style lang="scss">
   .editor {
     width: 80vw;
     display: flex;
