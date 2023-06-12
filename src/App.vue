@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="header">{{ selectedScene ? selectedScene + ' Demo' : 'Choose the demo' }}</h1>
+    <h1 class="header">{{ selectedScene ? selectedScene + ' Demo' : 'Choose the Demo' }}</h1>
 
     <div class="body">
       <div class="scene-list">
