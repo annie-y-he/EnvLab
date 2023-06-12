@@ -15,28 +15,8 @@ jobs:
         with:
           ref: main
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-          persist-credentials: false
-
-      - name: Copy dist folder
-        run: cp -R dist/* .
-
       - name: Commit and push changes
         run: |
-          git add .
+          git add ./dist
           git commit -m "Update gh-pages from main branch"
           git push origin gh-pages
