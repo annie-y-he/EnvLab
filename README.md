@@ -1,79 +1,63 @@
-# Environmental Science Lab Web Project
+# Nuxt 3 Minimal Starter
 
-- [Environmental Science Lab Web Project](#environmental-science-lab-web-project)
-  - [Client Requirements](#client-requirements)
-  - [Design Decisions](#design-decisions)
-    - [Execution](#execution)
-  - [Running locally](#running-locally)
-    - [Project Setup](#project-setup)
-    - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
-    - [Compile and Minify for Production](#compile-and-minify-for-production)
-    - [Run on Local HTTP Server](#run-on-local-http-server)
-    - [Commit and Push to GitHub](#commit-and-push-to-github)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Client Requirements
+## Setup
 
-- The client wants to reference Janna Levin's personal website [jannalevin.com](http://jannalevin.com/), on its floating objects and retro visual style.
-- The client wants the background to be ocean.
-- The website must be responsive to different devices, including desktops, tablets, and mobile phones.
+Make sure to install the dependencies:
 
-## Design Decisions
+```bash
+# npm
+npm install
 
-**Frontend:** Vue  
-**Backend:** Firebase  
-**Database:** Cloud Firestore  
+# pnpm
+pnpm install
 
-- The main page of this website should include some floating animated objects with physics and are interactable with a mouse object, such as through collision or other physics.
-- The website will have two account types: user and admin.
-    - User account username: `user`; password: `password1`
-    - Admin account username: `admin`; password: `password2`
-    - Both admin and user accounts can read, edit, and post articles.
-    - Admin accounts can change both `password1` and `password2`.
-- The login page will not be shown when visiting the website. It will only be shown when manually adding `/login` after the site address.
-- After logging in, the user or admin will be able to add a new article or edit existing one with a rich text editor.
-
-### Execution
-
-1. Set up a development environment with the necessary frontend technologies installed.
-2. Design and implement the frontend of the website using Vue.
-3. Set up a Firebase project and enable Cloud Firestore as the database.
-4. Configure Firebase Authentication to allow user authentication and authorization.
-5. Implement the necessary Firebase Authentication and Cloud Firestore rules to handle user authentication, article creation, and article retrieval.
-6. Test the website on a local development environment to ensure that it is running properly.
-7. Deploy the website to Firebase Hosting.
-8. Configure the website to use a custom domain name.
-9. Launch the website and monitor its performance, making any necessary adjustments to ensure scalability and maintainability.
-
-## Running locally
-
-After cloning the repository to the local machine, these makefile instructions can be used for development.
-
-### Project Setup
-
-```sh
-make install
+# yarn
+yarn install
 ```
 
-### Compile and Hot-Reload for Development
+## Development Server
 
-```sh
-make dev
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
 ```
 
-### Compile and Minify for Production
+## Production
 
-```sh
-make build
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
 ```
 
-### Run on Local HTTP Server
+Locally preview production build:
 
-```sh
-make server
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
 ```
 
-### Commit and Push to GitHub
-
-```sh
-make git
-```
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
