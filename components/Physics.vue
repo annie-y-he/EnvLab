@@ -5,7 +5,7 @@ import Matter from 'matter-js';
 export default {
   mounted() {
     // create engine
-    const { Engine, Render, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector, Svg, Vertices} = Matter;
+    const { Engine, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector, Svg, Vertices} = Matter;
 
     // create engine
     const engine = Engine.create();
@@ -15,6 +15,8 @@ export default {
     world.gravity.y = 0;
     
     const container = this.$refs.scene as HTMLElement;
+
+    let selectedBody: any = null;
 
 
     // create renderer
@@ -36,37 +38,44 @@ export default {
     const runner = Runner.create();
     Runner.run(runner, engine);
 
-    // add bodies
-    const offset = 10;
-    const thickness = 100;
-    const options = {
-      isStatic: true
-    };
-
     world.bodies = [];
 
-    // these static walls will not be rendered in this sprites example, see options
-    Composite.add(world, [
-      Bodies.rectangle(container.offsetWidth / 2, -thickness / 2 + offset, container.offsetWidth, thickness, options),
-      Bodies.rectangle(container.offsetWidth / 2, container.offsetHeight + thickness / 2 - offset, container.offsetWidth, thickness, options),
-      Bodies.rectangle(container.offsetWidth + thickness / 2 - offset, container.offsetHeight / 2, thickness, container.offsetHeight, options),
-      Bodies.rectangle(-thickness / 2 + offset, container.offsetHeight / 2, thickness, container.offsetHeight, options),
-    ]);
+    function addStatic(offset: number, thickness: number) {
+      const wallOptions = {
+        isStatic: true,
+        collisionFilter: {
+          category: 0x0001,
+          mask: 0x0001
+        }
+      };
+
+      Composite.add(world, [
+        Bodies.rectangle(container.offsetWidth / 2, -thickness / 2 + offset, container.offsetWidth, thickness, wallOptions),
+        Bodies.rectangle(container.offsetWidth / 2, container.offsetHeight + thickness / 2 - offset, container.offsetWidth, thickness, wallOptions),
+        Bodies.rectangle(container.offsetWidth + thickness / 2 - offset, container.offsetHeight / 2, thickness, container.offsetHeight, wallOptions),
+        Bodies.rectangle(-thickness / 2 + offset, container.offsetHeight / 2, thickness, container.offsetHeight, wallOptions),
+        Bodies.circle(container.offsetWidth / 2, container.offsetHeight / 2, Math.min(container.offsetHeight, container.offsetWidth) / 5, {
+          isStatic: true, 
+          render: {
+            fillStyle: 'transparent'
+          }, 
+          collisionFilter: {
+            category: 0x0002,
+            mask: 0x0001
+          }
+        }),
+      ]);
+    }
+
+    addStatic(0, 100);
 
     const resizeHandler = () => {
-      // Update options with new dimensions
       render.canvas.width = container.offsetWidth;
       render.canvas.height = container.offsetHeight;
 
-      // Update the positions of the static walls
-      Composite.remove(world, world.bodies); // Remove the existing walls
+      Composite.remove(world, world.bodies);
 
-      Composite.add(world, [
-        Bodies.rectangle(container.offsetWidth / 2, -thickness / 2 + offset, container.offsetWidth, thickness, options),
-        Bodies.rectangle(container.offsetWidth / 2, container.offsetHeight + thickness / 2 - offset, container.offsetWidth, thickness, options),
-        Bodies.rectangle(container.offsetWidth + thickness / 2 - offset, container.offsetHeight / 2, thickness, container.offsetHeight, options),
-        Bodies.rectangle(-thickness / 2 + offset, container.offsetHeight / 2, thickness, container.offsetHeight, options),
-      ]);
+      addStatic(0, 100);
     };
 
     window.addEventListener('resize', resizeHandler);
@@ -90,16 +99,14 @@ export default {
       '/img/cover6.png',
     ]
 
-    const numStrings = img.length;
-    const gridSize = Math.ceil(Math.sqrt(numStrings));
     let index = 0;
 
-    const stack = Composites.stack(64, 64, gridSize, gridSize, 0, 0, function(x: number, y: number) {
+    const stack = Composites.stack(64, 64, Math.ceil(Math.sqrt(img.length)), Math.ceil(Math.sqrt(img.length)), 0, 0, function(x: number, y: number) {
 
       console.log(index);
 
       // Check if there's a corresponding string in the array
-      if (index < numStrings) {
+      if (index < img.length) {
 
         const ball = Bodies.circle(x, y, 64, {
           density: 0.0005,
@@ -113,6 +120,10 @@ export default {
               xScale: 1/8,
               yScale: 1/8,
             }
+          },
+          collisionFilter: {
+            category: 0x0001, // Assign a custom collision group
+            mask: 0x0003, // Assign a custom collision mask
           }
         });
 
@@ -133,6 +144,10 @@ export default {
         stiffness: 0.2,
         render: {
           visible: false
+        },
+        collisionFilter: {
+          category: 0x0001,
+          mask: 0x0001
         }
       }
     });
@@ -142,10 +157,24 @@ export default {
     // keep the mouse in sync with rendering
     render.mouse = mouse;
 
-    // fit the render viewport to the scene
-    Render.lookAt(render, {
-      min: { x: 0, y: 0 },
-      max: { x: container.offsetWidth, y: container.offsetHeight }
+    Events.on(engine, 'beforeUpdate', function() {
+      if (selectedBody != null) {
+        // Ignore collisions between selectedBody and the circle
+        selectedBody.collisionFilter.mask = 0x0001;
+      } else {
+        // Allow collisions between all bodies
+        Composite.allBodies(stack).forEach((body: any) => {
+          body.collisionFilter.mask = 0x0003;
+        });
+      }
+    });
+
+    Events.on(mouseConstraint, 'startdrag', function(event: any) {
+      selectedBody = event.body;
+    });
+
+    Events.on(mouseConstraint, 'enddrag', function() {
+      selectedBody = null;
     });
 
     // context for MatterTools.Demo
@@ -173,14 +202,24 @@ export default {
 
 <template>
 
-  <div ref="scene" class="physics"></div>
-
   <div class="overlay">
-    <div class="opener">
+
+    <div class="opener"></div>
+
+    <div class="text">
       <h1>
         Hello Ocean!
       </h1>
+      <p>
+        drag and drop to open
+      </p>
     </div>
+
+  </div>
+
+  <div ref="scene" class="physics"></div>
+
+  <div class="underlay">
   </div>
 
 </template>
@@ -191,10 +230,10 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  z-index: 5;
+  z-index: 2;
 }
 
-.overlay {
+.underlay {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -208,20 +247,36 @@ export default {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
 
-  .opener{
-    background-color: rgba(44, 89, 78, 0.518);
+.overlay {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+  
+  .opener {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: calc(min(100vh, 100vw) / 2.5);
+    height: calc(min(100vh, 100vw) / 2.5);
+    border-radius: 50%;
+  }
+
+  .text {
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 300px;
-    width: 300px;
-    border-radius: 150px;
-  }
-  h1 {
+    width: calc(min(100vh, 100vw) / 2.5);
+    height: calc(min(100vh, 100vw) / 2.5);
     color: white;
   }
 }
-
 </style>
