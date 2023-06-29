@@ -2,8 +2,10 @@ dev:
 	npm run dev
 build:
 	npm run build
-server:
-	http-server ./dist
+start:
+	npx pm2 start
+stop:
+	npx pm2 stop nuxt-app
 install:
 	npm install
 git:

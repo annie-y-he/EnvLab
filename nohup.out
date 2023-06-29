@@ -1,0 +1,123 @@
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+Listening http://[::]:3000
+
+ ERROR  Command was killed with SIGTERM (Termination): node ./server/index.mjs
+
+  at makeError (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:625:11)
+  at handlePromise (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:1114:26)
+  at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  at async Object.invoke (node_modules/nuxi/dist/chunks/preview.mjs:77:5)
+  at async _main (node_modules/nuxi/dist/cli.mjs:48:20)
+
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+Listening http://[::]:3000
+Terminated
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+Listening http://[::]:3000
+
+ ERROR  Command was killed with SIGTERM (Termination): node ./server/index.mjs
+
+  at makeError (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:625:11)
+  at handlePromise (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:1114:26)
+  at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  at async Object.invoke (node_modules/nuxi/dist/chunks/preview.mjs:77:5)
+  at async _main (node_modules/nuxi/dist/cli.mjs:48:20)
+
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+Listening http://[::]:3000
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+[nitro] [dev] [uncaughtException] Error: listen EADDRINUSE: address already in use :::3000
+[nuxt] [request error] [unhandled] [500] Cannot find module '/home/bitnami/EnvLab/.output/server/chunks/app/_nuxt/Physics-styles.9a9941e5.mjs' imported from /home/bitnami/EnvLab/.output/server/chunks/app/styles.mjs
+  at new NodeError (node:internal/errors:399:5)  
+  at finalizeResolution (node:internal/modules/esm/resolve:326:11)  
+  at moduleResolve (node:internal/modules/esm/resolve:945:10)  
+  at defaultResolve (node:internal/modules/esm/resolve:1153:11)  
+  at nextResolve (node:internal/modules/esm/loader:163:28)  
+  at ESMLoader.resolve (node:internal/modules/esm/loader:838:30)  
+  at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)  
+  at ESMLoader.import (node:internal/modules/esm/loader:525:22)  
+  at importModuleDynamically (node:internal/modules/esm/translators:110:35)  
+  at importModuleDynamicallyCallback (node:internal/process/esm_loader:35:14)
+[nuxt] [request error] [unhandled] [500] ENOENT: no such file or directory, open '/home/bitnami/EnvLab/.output/public/_nuxt/error-500.9ee82c67.js'
+
+
+ ERROR  Command was killed with SIGTERM (Termination): node ./server/index.mjs
+
+  at makeError (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:625:11)
+  at handlePromise (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:1114:26)
+  at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  at async Object.invoke (node_modules/nuxi/dist/chunks/preview.mjs:77:5)
+  at async _main (node_modules/nuxi/dist/cli.mjs:48:20)
+
+
+> preview
+> nuxt preview
+
+Nuxi 3.5.3
+ℹ Node.js version: 18.16.0
+ℹ Preset: node-server
+ℹ Working dir: .output
+ℹ Loading .env. This will not be loaded when running the server in production.
+ℹ Starting preview command: node ./server/index.mjs
+
+Listening http://[::]:3000
+
+ ERROR  Command was killed with SIGTERM (Termination): node ./server/index.mjs
+
+  at makeError (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:625:11)
+  at handlePromise (node_modules/nuxi/dist/shared/nuxi.aab34421.mjs:1114:26)
+  at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+  at async Object.invoke (node_modules/nuxi/dist/chunks/preview.mjs:77:5)
+  at async _main (node_modules/nuxi/dist/cli.mjs:48:20)
+
+Listening http://[::]:3000
