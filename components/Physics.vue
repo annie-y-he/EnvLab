@@ -34,11 +34,11 @@ export default {
 
     Render.run(render);
 
+    let statics: any = null;
+
     // create runner
     const runner = Runner.create();
     Runner.run(runner, engine);
-
-    world.bodies = [];
 
     function addStatic(offset: number, thickness: number) {
       const wallOptions = {
@@ -49,7 +49,7 @@ export default {
         }
       };
 
-      Composite.add(world, [
+      statics = [
         Bodies.rectangle(container.offsetWidth / 2, -thickness / 2 + offset, container.offsetWidth, thickness, wallOptions),
         Bodies.rectangle(container.offsetWidth / 2, container.offsetHeight + thickness / 2 - offset, container.offsetWidth, thickness, wallOptions),
         Bodies.rectangle(container.offsetWidth + thickness / 2 - offset, container.offsetHeight / 2, thickness, container.offsetHeight, wallOptions),
@@ -64,7 +64,10 @@ export default {
             mask: 0x0001
           }
         }),
-      ]);
+      ];
+
+      Composite.add(world, statics);
+
     }
 
     addStatic(0, 100);
@@ -73,7 +76,7 @@ export default {
       render.canvas.width = container.offsetWidth;
       render.canvas.height = container.offsetHeight;
 
-      Composite.remove(world, world.bodies);
+      Composite.remove(world, statics);
 
       addStatic(0, 100);
     };
@@ -88,27 +91,27 @@ export default {
       '/img/cover4.png',
       '/img/cover5.png',
       '/img/cover6.png',
-      '/img/cover0.png',
-      '/img/cover1.png',
-      '/img/cover2.png',
-      '/img/cover3.png',
-      '/img/cover4.png',
-      '/img/cover5.png',
-      '/img/cover6.png',
-      '/img/cover5.png',
-      '/img/cover6.png',
+      '/img/cover7.png',
+      '/img/cover8.png',
+      '/img/cover9.png',
+      '/img/cover10.png',
+      '/img/cover11.png',
+      '/img/cover12.png',
+      '/img/cover13.png',
+      '/img/cover14.png',
+      '/img/cover15.png',
     ]
 
     let index = 0;
 
-    const stack = Composites.stack(64, 64, Math.ceil(Math.sqrt(img.length)), Math.ceil(Math.sqrt(img.length)), 0, 0, function(x: number, y: number) {
+    const bubbles = Composites.stack(64, 64, Math.ceil(Math.sqrt(img.length)), Math.ceil(Math.sqrt(img.length)), 0, 0, function(x: number, y: number) {
 
       console.log(index);
 
       // Check if there's a corresponding string in the array
       if (index < img.length) {
 
-        const ball = Bodies.circle(x, y, 64, {
+        const bubble = Bodies.circle(x, y, 64, {
           density: 0.0005,
           frictionAir: 0.0001,
           restitution: 0.5,
@@ -128,13 +131,13 @@ export default {
         });
 
         const velocity = Vector.create(Common.random(-3, 3), Common.random(-3, 3));
-        Body.setVelocity(ball, velocity);
+        Body.setVelocity(bubble, velocity);
 
-        return ball;
+        return bubble;
       }
     });
 
-    Composite.add(world, stack);
+    Composite.add(world, bubbles);
 
     // add mouse control
     const mouse = Mouse.create(render.canvas);
@@ -144,10 +147,6 @@ export default {
         stiffness: 0.2,
         render: {
           visible: false
-        },
-        collisionFilter: {
-          category: 0x0001,
-          mask: 0x0001
         }
       }
     });
@@ -159,11 +158,9 @@ export default {
 
     Events.on(engine, 'beforeUpdate', function() {
       if (selectedBody != null) {
-        // Ignore collisions between selectedBody and the circle
         selectedBody.collisionFilter.mask = 0x0001;
       } else {
-        // Allow collisions between all bodies
-        Composite.allBodies(stack).forEach((body: any) => {
+        Composite.allBodies(bubbles).forEach((body: any) => {
           body.collisionFilter.mask = 0x0003;
         });
       }
@@ -177,14 +174,12 @@ export default {
       selectedBody = null;
     });
 
-    // context for MatterTools.Demo
     this.engine = engine;
     this.runner = runner;
     this.render = render;
     this.canvas = render.canvas;
   },
   beforeUnmount() {
-    // Stop the rendering and the runner when the component is unmounted
     Matter.Render.stop(this.render);
     Matter.Runner.stop(this.runner);
   },
@@ -277,6 +272,7 @@ export default {
     width: calc(min(100vh, 100vw) / 2.5);
     height: calc(min(100vh, 100vw) / 2.5);
     color: white;
+    text-align: center;
   }
 }
 </style>
