@@ -203,6 +203,8 @@ export default {
     }
 
     document.addEventListener("mousemove", checkOverlap);
+    document.addEventListener("touchmove", checkOverlap);
+
 
     Events.on(mouseConstraint, 'startdrag', function(event: any) {
       if(!event.body.isStatic) {
@@ -216,6 +218,8 @@ export default {
         Composite.remove(world, opener2);
         window.removeEventListener('resize', resizeHandler);
         document.removeEventListener("mousemove", checkOverlap);
+        document.removeEventListener("touchmove", checkOverlap);
+
         Composite.remove(world, wall);
 
         selectedBody.collisionFilter.category = 0x0004;
