@@ -5,7 +5,7 @@ import Matter from 'matter-js';
 export default {
   mounted() {
     // create engine
-    const { Engine, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector, Svg, Vertices} = Matter;
+    const { Collision, Engine, Detector, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector} = Matter;
 
     // create engine
     const engine = Engine.create();
@@ -13,11 +13,18 @@ export default {
 
     // world settings
     world.gravity.y = 0;
-    
+
+    // variables
     const container = this.$refs.scene as HTMLElement;
 
-    let selectedBody: any = null;
+    var selectedBody: any = null;
 
+    var wall: any = null;
+
+    var opener: any = null;
+    var opener2: any = null;
+
+    var title = document.getElementById("title") as HTMLElement;
 
     // create renderer
     const render = Render.create({
@@ -34,52 +41,80 @@ export default {
 
     Render.run(render);
 
-    let statics: any = null;
-
     // create runner
     const runner = Runner.create();
     Runner.run(runner, engine);
 
-    function addStatic(offset: number, thickness: number) {
-      const wallOptions = {
-        isStatic: true,
+    var wallOptions = {
+      isStatic: true,
+      collisionFilter: {
+        category: 0x0001,
+        mask: 0x0001
+      }
+    };
+
+    const thickness = 100;
+    const offset = 0;
+
+    function addOpener() {
+      opener = Bodies.circle(container.offsetWidth / 2, container.offsetHeight / 2, Math.min(container.offsetHeight, container.offsetWidth) / 5, {
+        isStatic: true, 
+        render: {
+          fillStyle: 'rgba(0, 0, 0, 0.5)'
+        }, 
         collisionFilter: {
-          category: 0x0001,
+          category: 0x0002,
           mask: 0x0001
         }
-      };
+      })
+      opener2 = Bodies.circle(container.offsetWidth / 2, container.offsetHeight / 2, Math.min(container.offsetHeight, container.offsetWidth) / 5, {
+        isSensor: true,
+        isStatic: true, 
+        render: {
+          fillStyle: 'transparent'
+        }, 
+        collisionFilter: {
+          category: 0x0002,
+          mask: 0x0001
+        }
+      })
+      Composite.add(world, opener);
+      Composite.add(world, opener2);
 
-      statics = [
+    }
+
+    function addWall() {
+      wall = [
         Bodies.rectangle(container.offsetWidth / 2, -thickness / 2 + offset, container.offsetWidth, thickness, wallOptions),
         Bodies.rectangle(container.offsetWidth / 2, container.offsetHeight + thickness / 2 - offset, container.offsetWidth, thickness, wallOptions),
         Bodies.rectangle(container.offsetWidth + thickness / 2 - offset, container.offsetHeight / 2, thickness, container.offsetHeight, wallOptions),
         Bodies.rectangle(-thickness / 2 + offset, container.offsetHeight / 2, thickness, container.offsetHeight, wallOptions),
-        Bodies.circle(container.offsetWidth / 2, container.offsetHeight / 2, Math.min(container.offsetHeight, container.offsetWidth) / 5, {
-          isStatic: true, 
-          render: {
-            fillStyle: 'transparent'
-          }, 
-          collisionFilter: {
-            category: 0x0002,
-            mask: 0x0001
-          }
-        }),
       ];
-
-      Composite.add(world, statics);
-
+      Composite.add(world, wall);
     }
 
-    addStatic(0, 100);
+    addOpener();
+    addWall();
 
-    const resizeHandler = () => {
+    var resizeHandler = function() {
       render.canvas.width = container.offsetWidth;
       render.canvas.height = container.offsetHeight;
 
-      Composite.remove(world, statics);
+      Composite.remove(world, wall);
+      Composite.remove(world, opener);
+      Composite.remove(world, opener2);
 
-      addStatic(0, 100);
+      addOpener();
+      addWall();
     };
+
+    var resizeHandler2 = function() {
+      render.canvas.width = container.offsetWidth;
+      render.canvas.height = container.offsetHeight;
+
+      Composite.remove(world, wall);
+      addWall();
+    }
 
     window.addEventListener('resize', resizeHandler);
 
@@ -106,12 +141,12 @@ export default {
 
     const bubbles = Composites.stack(64, 64, Math.ceil(Math.sqrt(img.length)), Math.ceil(Math.sqrt(img.length)), 0, 0, function(x: number, y: number) {
 
-      console.log(index);
-
       // Check if there's a corresponding string in the array
       if (index < img.length) {
 
         const bubble = Bodies.circle(x, y, 64, {
+          name: 'Object ' + index,
+          label: 'bubble',
           density: 0.0005,
           frictionAir: 0.0001,
           restitution: 0.5,
@@ -156,23 +191,67 @@ export default {
     // keep the mouse in sync with rendering
     render.mouse = mouse;
 
-    Events.on(engine, 'beforeUpdate', function() {
-      if (selectedBody != null) {
+    
+
+    function checkOverlap() {
+      if(selectedBody != null && Collision.collides(selectedBody, opener2) != null && Collision.collides(selectedBody, opener2).collided) {
+        title.textContent = selectedBody.name;
+      }
+      else {
+        title.textContent = "Hello Ocean!";
+      }
+    }
+
+    document.addEventListener("mousemove", checkOverlap);
+
+    Events.on(mouseConstraint, 'startdrag', function(event: any) {
+      if(!event.body.isStatic) {
+        selectedBody = event.body;
         selectedBody.collisionFilter.mask = 0x0001;
-      } else {
-        Composite.allBodies(bubbles).forEach((body: any) => {
-          body.collisionFilter.mask = 0x0003;
-        });
       }
     });
 
-    Events.on(mouseConstraint, 'startdrag', function(event: any) {
-      selectedBody = event.body;
+    Events.on(mouseConstraint, 'enddrag', function() {
+      if(selectedBody != null && Collision.collides(selectedBody, opener2) != null && Collision.collides(selectedBody, opener2).collided) {
+        Composite.remove(world, opener2);
+        window.removeEventListener('resize', resizeHandler);
+        document.removeEventListener("mousemove", checkOverlap);
+        Composite.remove(world, wall);
+
+        selectedBody.collisionFilter.category = 0x0004;
+        wallOptions.collisionFilter.mask = 0x0004;
+        addWall();
+        animate();
+
+        window.addEventListener('resize', resizeHandler2);
+      }
+      else {
+        selectedBody.collisionFilter.mask = 0x0003;
+        selectedBody = null;
+      }
     });
 
-    Events.on(mouseConstraint, 'enddrag', function() {
-      selectedBody = null;
-    });
+    function animate() {
+      if (opener.circleRadius < Math.sqrt(container.offsetWidth * container.offsetWidth + container.offsetHeight * container.offsetHeight)) {
+        const scaleSpeed = 1.01;
+        // Set the scale of the object
+        Body.scale(opener, scaleSpeed, scaleSpeed, opener.position);
+        // Render the changes
+        Render.world(render);
+        // Request the next animation frame
+        requestAnimationFrame(animate);
+      } else {
+        Composite.remove(world, opener);
+        render.options.background = 'rgba(0, 0, 0, 0.5)';
+
+        Composite.allBodies(bubbles).forEach((b: any) => {
+
+          if(b.collisionFilter.category != 0x0004) {
+            Composite.remove(bubbles, b);
+          }
+        })
+      }
+    }
 
     this.engine = engine;
     this.runner = runner;
@@ -202,7 +281,7 @@ export default {
     <div class="opener"></div>
 
     <div class="text">
-      <h1>
+      <h1 id="title">
         Hello Ocean!
       </h1>
       <p>
@@ -255,13 +334,13 @@ export default {
   pointer-events: none;
   z-index: 10;
   
-  .opener {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: calc(min(100vh, 100vw) / 2.5);
-    height: calc(min(100vh, 100vw) / 2.5);
-    border-radius: 50%;
-  }
+  // .opener {
+  //   position: fixed;
+  //   background-color: rgba(0, 0, 0, 0.5);
+  //   width: calc(min(100vh, 100vw) / 2.5);
+  //   height: calc(min(100vh, 100vw) / 2.5);
+  //   border-radius: 50%;
+  // }
 
   .text {
     position: fixed;
