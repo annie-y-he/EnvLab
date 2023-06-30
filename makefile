@@ -1,5 +1,10 @@
 dev:
 	npm run dev
+serve:
+	git pull
+	npx pm2 stop nuxt-app
+	npm run build
+	npx pm2 start
 build:
 	npm run build
 start:
