@@ -24,7 +24,12 @@ export default {
     var opener: any = null;
     var opener2: any = null;
 
+    var text = document.getElementById("text") as HTMLElement;
     var title = document.getElementById("title") as HTMLElement;
+    var content = document.getElementById("content") as HTMLElement;
+
+
+    var end = false;
 
     // create renderer
     const render = Render.create({
@@ -207,14 +212,17 @@ export default {
 
 
     Events.on(mouseConstraint, 'startdrag', function(event: any) {
-      if(!event.body.isStatic) {
+      if(!event.body.isStatic && !end) {
         selectedBody = event.body;
         selectedBody.collisionFilter.mask = 0x0001;
+      } else if(!event.body.isStatic && end) {
+        text.style.pointerEvents = "none";
       }
     });
 
     Events.on(mouseConstraint, 'enddrag', function() {
       if(selectedBody != null && Collision.collides(selectedBody, opener2) != null && Collision.collides(selectedBody, opener2).collided) {
+        end = true;
         Composite.remove(world, opener2);
         window.removeEventListener('resize', resizeHandler);
         document.removeEventListener("mousemove", checkOverlap);
@@ -228,6 +236,8 @@ export default {
         animate();
 
         window.addEventListener('resize', resizeHandler2);
+      } else if(selectedBody != null && end) {
+        text.style.pointerEvents = "auto";
       }
       else {
         selectedBody.collisionFilter.mask = 0x0003;
@@ -254,6 +264,19 @@ export default {
             Composite.remove(bubbles, b);
           }
         })
+
+        content.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in fermentum erat. Cras vehicula nisl feugiat massa sollicitudin, at eleifend est faucibus. Proin sit amet ultricies tellus, vitae dapibus diam. Sed hendrerit orci purus, vitae convallis sapien viverra nec. Proin venenatis sapien id lectus consectetur rhoncus. Mauris at fringilla nunc. Nunc non lacus et tellus tristique lacinia. Cras maximus ex mi, sit amet suscipit felis gravida ut. Integer porttitor hendrerit placerat. Donec imperdiet metus nec lectus consectetur, sit amet sagittis tortor cursus. Sed a nisi malesuada, fermentum dui nec, rhoncus dui. Cras nec malesuada felis, id ullamcorper risus. Morbi vestibulum venenatis tellus, at lacinia enim facilisis a. Sed sagittis est sed lacus porta sollicitudin. Vivamus laoreet ligula vitae ante porttitor pharetra.<br><br>Morbi nulla diam, semper a nibh nec, accumsan venenatis tellus. Sed at leo id tellus pellentesque faucibus. Phasellus auctor non nisi vitae placerat. Sed est tellus, porta et purus elementum, vestibulum ornare nibh. Nam blandit velit non vehicula congue. Curabitur vehicula nisl a eros molestie imperdiet. Nullam cursus vel magna at varius. Sed ut tempor leo. Aenean facilisis urna vitae augue condimentum, ac eleifend lectus fringilla. In iaculis dolor in augue hendrerit, quis volutpat enim rhoncus. Nam et diam diam. Aenean eu iaculis nisl.<br><br>Morbi rhoncus convallis quam, a sagittis felis imperdiet at. Vivamus placerat urna elit, et finibus turpis viverra bibendum. Integer consequat id mauris ut finibus. Nulla eget metus turpis. Vestibulum vitae tellus ornare, pulvinar augue quis, feugiat tellus. Suspendisse interdum varius orci, ac tincidunt enim feugiat eu. Donec pretium accumsan ornare. Duis aliquet tortor sit amet tincidunt vulputate. Vestibulum ac gravida orci, eu sollicitudin massa. Sed aliquam, eros id suscipit euismod, metus augue venenatis ex, id condimentum risus libero at orci. Integer accumsan aliquam nisl, non pretium quam tempus id.<br><br>Vivamus at feugiat ex. Sed aliquam est lectus, ac dignissim eros tincidunt eget. Sed eleifend sapien id dui accumsan pretium. Donec pretium mauris elit, sit amet ullamcorper nisl fermentum vel. Pellentesque sed felis massa. Vestibulum a lectus metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec sodales ex. Ut sodales in massa in volutpat.<br><br>Etiam fringilla eget nisi vitae tincidunt. Fusce pulvinar condimentum dignissim. Curabitur ultrices, mi ac dapibus condimentum, magna sapien varius lorem, bibendum facilisis turpis leo sed lorem. Phasellus suscipit auctor tempor. Nulla sed bibendum dui. Maecenas semper ante tortor, eget pulvinar dolor malesuada vel. Ut vestibulum ex et purus varius placerat. Nunc sit amet tortor ipsum. Morbi dapibus odio nulla, feugiat sodales ex maximus quis. Phasellus interdum nulla id erat volutpat rhoncus. Donec eget tellus commodo, tempus magna sed, faucibus nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras commodo justo in urna suscipit, quis interdum nunc placerat. Etiam massa justo, dapibus nec vehicula in, pharetra nec libero.<br><br>Mauris augue metus, sodales nec nibh vel, hendrerit scelerisque elit. In arcu ipsum, efficitur vitae porta eget, imperdiet nec quam. Etiam quis purus faucibus, accumsan nisi ut, sollicitudin nisl. In nisi ligula, condimentum ac faucibus sit amet, ultricies vel lectus. Nulla in metus accumsan, rhoncus lorem ut, lacinia lorem. Vestibulum feugiat laoreet libero sollicitudin viverra. Aliquam quis nulla quis nunc facilisis pellentesque. Nulla facilisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam semper interdum nisl, at tristique justo malesuada nec. Phasellus mattis ultrices dui eu ullamcorper. Suspendisse efficitur velit scelerisque urna blandit, at cursus tortor commodo. Sed vel odio id augue posuere mattis. Proin nunc purus, sollicitudin sed massa eget, rutrum pretium metus.<br><br>Nullam in commodo mi, ac ullamcorper neque. Pellentesque vehicula eget ante tempus viverra. Aenean ac eleifend massa. Cras volutpat ex et eros ullamcorper, eget gravida purus consectetur. Donec et tempus ligula. Ut interdum massa magna, quis laoreet est posuere nec. Pellentesque sed pellentesque leo. Ut dignissim erat non iaculis vestibulum. Sed non felis enim. Nam tellus erat, efficitur a turpis ac, feugiat facilisis sem. Maecenas efficitur nibh in porta semper.<br><br>Morbi dictum tortor aliquet pharetra pellentesque. Curabitur in felis vel sem faucibus feugiat eu ut ex. Mauris pretium pulvinar libero. Vestibulum nulla est, lacinia nec odio nec, scelerisque venenatis neque. Nunc et egestas nunc. Nunc dignissim ex sed tellus mattis, ut tempus enim elementum. Praesent aliquam venenatis felis ut vulputate. Aenean tristique eros efficitur dolor condimentum dignissim. Cras varius egestas posuere. Integer ac rutrum neque. Praesent eu dui metus. Aliquam ultricies tellus ac elit gravida, eu ullamcorper ipsum pellentesque. Sed quis nulla sed eros fringilla consectetur ut nec ligula.<br><br>Aliquam semper lacus eu porta vehicula. Mauris fringilla ante arcu, eget laoreet mi luctus ac. Etiam eu metus eget nulla consectetur condimentum a eget mi. Phasellus sollicitudin malesuada justo non pretium. Mauris consequat in justo vel convallis. Nulla facilisi. Integer malesuada dolor nulla, ut pharetra nulla faucibus et. Donec in pretium orci. Quisque mattis tempus augue, sit amet tincidunt nisl maximus nec. Fusce venenatis, felis vitae euismod fringilla, lorem erat dictum augue, ut laoreet tellus lorem vitae dolor. Etiam egestas ligula ante, ut euismod lectus cursus et. Vivamus eleifend sagittis libero, quis mollis sapien aliquet at. Nulla et interdum odio, sit amet mattis lorem.<br><br>Nunc tristique semper posuere. Phasellus eu ligula ipsum. Quisque a lacus congue, commodo quam at, tincidunt sem. Nullam id neque dictum, accumsan leo ac, aliquam turpis. Quisque quis imperdiet est, nec convallis ipsum. In non ullamcorper est. Morbi eu venenatis tellus. Integer faucibus sapien nec viverra rutrum. Aliquam vel erat et tellus maximus iaculis. Sed posuere ex vehicula purus blandit imperdiet. Praesent posuere ligula lectus. Aenean sodales molestie maximus. Nullam porttitor erat et eros euismod, pretium posuere lacus porta. In in bibendum mauris. Pellentesque ullamcorper libero quis turpis cursus, et accumsan neque auctor. Curabitur facilisis, mi sit amet consectetur pellentesque, risus ante luctus orci, at lobortis nulla tellus quis libero.";
+
+        text.style.width = "70vw";
+        text.style.height = "60vh";
+        text.style.overflowY = "scroll";
+        text.style.pointerEvents = "auto";
+        text.style.textAlign = "left";
+        text.style.position = "relative";
+        text.style.alignItems = "none";
+        text.style.justifyContent = "none";
+        text.style.display = "block";
+
       }
     }
 
@@ -284,11 +307,11 @@ export default {
 
     <div class="opener"></div>
 
-    <div class="text">
+    <div class="text" id="text">
       <h1 id="title">
         Hello Ocean!
       </h1>
-      <p>
+      <p id="content">
         drag and drop to open
       </p>
     </div>
@@ -347,6 +370,7 @@ export default {
   // }
 
   .text {
+    padding: 2vw;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -356,6 +380,27 @@ export default {
     height: calc(min(100vh, 100vw) / 2.5);
     color: white;
     text-align: center;
+    scrollbar-width: 5px;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffffb0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000000a4;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #000000;
 }
 </style>

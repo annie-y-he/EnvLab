@@ -1,39 +1,41 @@
-<script setup>
-
-  import { QuillEditor } from '@vueup/vue-quill'
-  import '@vueup/vue-quill/dist/vue-quill.snow.css'
-
-</script>
-
 <template>
-
-  <div class="editor">
-    <QuillEditor theme="snow" toolbar="full" />
+  <div class="circle-mask">
+    <div class="content-block1">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ea accusantium praesentium fugit aperiam soluta facere excepturi aliquid deleniti tenetur, voluptates animi aspernatur delectus est commodi cumque odit obcaecati repellendus quidem cum iusto velit sunt saepe. Autem aspernatur, tempore sed natus praesentium sint deserunt doloribus inventore qui error quis dicta repellendus exercitationem repudiandae? Corrupti soluta atque eum adipisci voluptatem voluptatum laudantium enim rerum ipsa. Exercitationem saepe facere molestias maxime tenetur rem aperiam? Commodi veritatis eius saepe, laudantium non dolorem eveniet incidunt ipsum blanditiis ut nobis provident perferendis, quaerat, animi fugit nulla. Quod libero, velit eius aliquid numquam tempora? Reprehenderit voluptates dolorum vero nostrum animi illum quod cumque id, non perspiciatis, incidunt asperiores, iste odio. Assumenda quas omnis minus voluptate. Quibusdam earum obcaecati quia odio accusantium molestias eligendi aut corporis temporibus praesentium facere ad harum necessitatibus repudiandae at quae repellendus, unde excepturi possimus laudantium nulla, fugiat animi impedit rerum. Voluptas alias, possimus dignissimos perferendis voluptatum sint nisi? Ratione dolor laudantium molestiae sint est quaerat hic dolore mollitia expedita id, delectus aperiam illum vero, reiciendis, illo sequi cum consequuntur totam. Sint error maxime, hic officia itaque dolor nulla vitae quo dignissimos consectetur modi culpa eius, similique pariatur, soluta beatae architecto repellat consequatur cum a quibusdam numquam. Nihil, ipsa eos at impedit quia vero sunt voluptate! Praesentium nisi alias porro quaerat sapiente omnis voluptatum, atque modi libero nesciunt blanditiis facere molestiae tempore at fuga laborum vel enim mollitia. Commodi rerum, quo animi autem nostrum sint reprehenderit, cupiditate incidunt quidem adipisci ex, numquam atque consequuntur. Esse blanditiis deserunt non. Velit doloremque veniam inventore corrupti commodi aut, enim mollitia animi necessitatibus explicabo similique harum cupiditate qui, quas, tenetur id adipisci officiis dicta cum consectetur accusamus unde! Distinctio voluptate itaque blanditiis iusto ipsam, doloribus, tempora eveniet voluptas repellat provident consequuntur quis sed sint et, illum quas delectus ex in esse facilis nisi error cupiditate. Recusandae quisquam commodi quia quo, omnis ut vitae ratione error ea. Saepe, debitis similique ab iure suscipit, ad minus provident nesciunt rerum labore aliquid perspiciatis inventore fuga veritatis qui tenetur consectetur hic quisquam praesentium blanditiis tempora quam architecto. Corporis, pariatur. Reprehenderit quae architecto fugit suscipit ducimus ad sapiente, vero, omnis beatae eaque dolorum id numquam accusamus est veritatis molestiae atque laboriosam accusantium nisi, culpa nam quidem repudiandae non modi. Aspernatur asperiores praesentium mollitia dolores a exercitationem totam est cum dolore, in quaerat minus. Nam harum repellat quis maxime? Beatae deleniti deserunt, nihil id quasi necessitatibus ipsam placeat odio nulla! Maiores consectetur error neque cum et beatae mollitia? Sint rem facilis ullam repellendus fuga fugiat ea adipisci itaque id ut delectus optio facere est ex consectetur possimus harum, earum omnis quibusdam eum deleniti in sunt placeat. Ab atque amet numquam temporibus architecto sunt ratione itaque rerum totam sit at, perferendis, suscipit illo, praesentium voluptates libero enim facere voluptatum eaque? Praesentium sequi quod perferendis voluptates, suscipit cumque at debitis aliquid consequuntur eaque similique distinctio sed commodi est sit iure quaerat voluptatibus quae dicta autem. Dicta, debitis beatae pariatur sunt soluta fugiat consequuntur? Quos, voluptatem.
+    </div>
+    <div class="content-block2">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor fuga praesentium distinctio eos. Qui laboriosam rerum alias vero expedita fuga quaerat corporis dolorem in dignissimos perferendis amet libero, molestias sit laborum voluptate harum eum eveniet eaque iste cumque provident! Id ab nihil obcaecati voluptate, veritatis similique explicabo quaerat officiis numquam. Magnam ratione nisi itaque praesentium harum deleniti similique doloremque voluptatem quod suscipit ut perferendis provident eveniet est qui eaque maiores ipsam ducimus nemo, nobis soluta necessitatibus consectetur officiis accusantium? Tenetur, maiores sed, natus fugit quo eligendi nesciunt praesentium asperiores non, laborum cum unde distinctio nemo hic vel? Quae reiciendis excepturi sint ex fugiat quis et animi, quos sunt a quisquam cum at necessitatibus nostrum officia porro voluptatibus velit soluta vero facilis qui dolore labore ducimus vel! Et similique minus, maxime placeat deleniti doloribus dolorem accusantium beatae voluptatum necessitatibus aut, laboriosam odio ipsam tempore sint qui aspernatur iure totam repudiandae fuga ex. Vero, commodi excepturi ea eligendi expedita quas, magnam quos, repellat assumenda cupiditate eos placeat nobis esse reprehenderit amet rerum accusantium natus dolor est. Atque tempore molestias error impedit temporibus deleniti aliquam in fuga, neque magni similique reprehenderit illum omnis veniam quo odit. Qui omnis, aliquam, totam minus enim alias, iusto voluptas ratione harum natus delectus nulla excepturi incidunt error iste. Quam voluptas ipsum id. Exercitationem numquam saepe facilis, quidem voluptas aut architecto alias vel. Officia sed commodi inventore quia repudiandae! Voluptatem odio recusandae soluta qui voluptates quaerat beatae officiis, eligendi quasi nisi vel porro laboriosam ut ipsam natus harum exercitationem doloribus amet veniam, optio sed blanditiis sit? Consectetur, ullam rem temporibus minima officiis labore. Laudantium optio, consectetur quidem vitae molestias nisi? Laborum incidunt harum modi repellat quisquam ut ab reprehenderit impedit. Cum neque saepe officiis provident fugit porro tempore sint, doloremque, nesciunt placeat ut harum molestias, rerum est maxime beatae dolore numquam! Fugiat eum itaque quibusdam nobis eaque odit, natus quas nesciunt exercitationem est at, officiis minima sit quis, aspernatur praesentium. Aut adipisci omnis voluptates labore id commodi doloremque necessitatibus voluptatum, laudantium vitae reprehenderit eaque ducimus dolores quaerat in, aliquid ab consequatur sint. Incidunt itaque excepturi molestias aut voluptatem magni nesciunt pariatur exercitationem autem minima iure aperiam eum dolores at illo, officiis aspernatur labore. Voluptatem excepturi assumenda magnam minima sint voluptate temporibus nesciunt doloremque quasi. Dolorum repellat, fugit dolore voluptatem odio laboriosam, necessitatibus voluptas odit quas ratione obcaecati animi temporibus iusto delectus, soluta blanditiis est quidem expedita quibusdam ipsa possimus? Quaerat similique distinctio possimus harum nostrum. Minima suscipit est obcaecati quisquam quo adipisci reiciendis enim, accusamus quos repellendus neque, beatae, ex tenetur modi iure amet cupiditate quasi alias corporis ullam illo! Omnis inventore laudantium debitis, tenetur eveniet numquam. Reiciendis maiores culpa dignissimos ullam architecto temporibus similique nulla a quaerat repellat omnis, dolorum eaque dolore quasi nisi vitae expedita accusantium, officiis odit. Temporibus perferendis alias dolorem unde iure rerum dolorum nulla, voluptatum reiciendis ea soluta earum odit, ipsam impedit quibusdam autem molestias harum labore ratione porro. Nostrum odit est quos quia incidunt temporibus possimus minus cupiditate nulla quasi. Quaerat, accusantium!
+    </div>
   </div>
-
 </template>
 
-<style>
+<style scoped>
+.circle-mask {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  .editor {
-    width: 80vw;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+.content-block1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  color: red;
+}
 
-  .editor .ql-toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
-  .editor .ql-editor {
-    display: block;
-    width: 100%;
-  }
-
+.content-block2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(40vw, 40vh);
+  height: min(40vw, 40vh);
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: blue;
+}
 </style>
-
