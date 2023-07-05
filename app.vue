@@ -1,7 +1,7 @@
 <template>
   <div class="overlay">
-    <Physics />
-    <!-- <BlogEditor /> -->
+    <!-- <Physics /> -->
+    <BlogEditor />
   </div>
 </template>
 
