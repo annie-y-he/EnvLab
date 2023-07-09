@@ -167,12 +167,11 @@ export default {
     }
 
 
-
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 7; i++) {
       const margin = 200;
       const speed = 0.1;
       const angSpeed = 0.001;
-      createBubble(Common.random(0.1, 0.3), Common.random(margin, container.offsetWidth - margin), Common.random(margin, container.offsetHeight - margin), Common.random(-speed, speed), Common.random(-speed, speed), Common.random(-angSpeed, angSpeed), 'cover0');
+      createBubble(Common.random(0.1, 0.3), Common.random(margin, container.offsetWidth - margin), Common.random(margin, container.offsetHeight - margin), Common.random(-speed, speed), Common.random(-speed, speed), Common.random(-angSpeed, angSpeed), '8ball');
 
     }
 
