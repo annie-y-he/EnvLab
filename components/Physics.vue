@@ -187,14 +187,68 @@ export default {
     }
 
 
-    for (var i = 0; i < 8; i++) {
-      const margin = 200;
-      const degree = 45;
-      const speed = 0.5;
-      const angSpeed = 0.001;
-      createBubble(Common.random(0.1, 0.3), { x: Common.random(margin, container.offsetWidth - margin), y: Common.random(margin, container.offsetHeight - margin) }, Common.random(-degree, degree), Common.random(-speed, speed), Common.random(-angSpeed, angSpeed), '8ball');
+    function initBubble(){
+      for (var i = 0; i < 1; i++) {
+        const size = 0.25;
+        const x = 0.5;
+        const y = 0.2;
+        const margin = 5;
+        const degree = 45;
+        const speed = 0.01;
+        const angSpeed = 0.001;
+        createBubble(size, { x: (container.offsetWidth - margin * size) * x, y: (container.offsetHeight - margin * size) * y }, degree, speed, angSpeed, '8ball', 'I');
+      }
 
+      for (var i = 0; i < 1; i++) {
+        const size = 0.2;
+        const x = 0.2;
+        const y = 0.5;
+        const margin = 5;
+        const degree = 20;
+        const speed = 0.1;
+        const angSpeed = 0.0005;
+        createBubble(size, { x: (container.offsetWidth - margin * size) * x, y: (container.offsetHeight - margin * size) * y }, degree, speed, angSpeed, 'manatee1', '');
+      }
+
+      for (var i = 0; i < 1; i++) {
+        const size = 0.2;
+        const x = 0.4;
+        const y = 0.7;
+        const margin = 5;
+        const degree = -120;
+        const speed = 0.08;
+        const angSpeed = 0.0007;
+        createBubble(size, { x: (container.offsetWidth - margin * size) * x, y: (container.offsetHeight - margin * size) * y }, degree, speed, angSpeed, 'manatee2', 'I');
+      }
+
+      for (var i = 0; i < 1; i++) {
+        const size = 0.2;
+        const x = 0.6;
+        const y = 0.3;
+        const margin = 5;
+        const degree = -68;
+        const speed = 0.04;
+        const angSpeed = 0.0003;
+        createBubble(size, { x: (container.offsetWidth - margin * size) * x, y: (container.offsetHeight - margin * size) * y }, degree, speed, angSpeed, 'manatee3', 'I');
+      }
+
+      for (var i = 0; i < 1; i++) {
+        const size = 0.264;
+        const x = 0.25;
+        const y = 0.74;
+        const margin = 5;
+        const degree = 389;
+        const speed = 0.0642;
+        const angSpeed = 0.000234;
+        createBubble(size, { x: (container.offsetWidth - margin * size) * x, y: (container.offsetHeight - margin * size) * y }, degree, speed, angSpeed, 'argonaut', 'I');
+      }
     }
+
+    Events.on(engine, 'beforeUpdate', function() {
+      if (world.bodies.length < 9 ) {
+        initBubble();
+      }
+    })
 
     Events.on(engine, 'collisionStart', function(event: any) {
       for (var i = 0; i < event.pairs.length; i++) {
@@ -273,13 +327,13 @@ export default {
           wallObj = event.pairs[i].bodyA;
         }
 
-        if (wallObj.name == 'wallT' && bubbleObj.generator != 'T' && bubbleObj.prevGen != 'T') {
+        if (wallObj.name == 'wallT' && bubbleObj.generator != 'T' && bubbleObj.prevGen != 'T' && bubbleObj.generator != 'I') {
           Composite.remove(world, bubbleObj);
-        } else if (wallObj.name == 'wallB' && bubbleObj.generator != 'B' && bubbleObj.prevGen != 'B') {
+        } else if (wallObj.name == 'wallB' && bubbleObj.generator != 'B' && bubbleObj.prevGen != 'B' && bubbleObj.generator != 'I') {
           Composite.remove(world, bubbleObj);
-        } else if (wallObj.name == 'wallR' && bubbleObj.generator != 'R' && bubbleObj.prevGen != 'R') {
+        } else if (wallObj.name == 'wallR' && bubbleObj.generator != 'R' && bubbleObj.prevGen != 'R' && bubbleObj.generator != 'I') {
           Composite.remove(world, bubbleObj);
-        } else if (wallObj.name == 'wallL' && bubbleObj.generator != 'L' && bubbleObj.prevGen != 'L') {
+        } else if (wallObj.name == 'wallL' && bubbleObj.generator != 'L' && bubbleObj.prevGen != 'L' && bubbleObj.generator != 'I') {
           Composite.remove(world, bubbleObj);
         }
       }
