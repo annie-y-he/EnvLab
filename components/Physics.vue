@@ -126,17 +126,37 @@ export default {
 
     window.addEventListener('resize', resizeHandler);
 
-    function createBubble(s: number, x: number, y: number, vx: number, vy: number, va: number, nm: string, gen: string = '', pgen: string = '') {
-      const bubble = Bodies.circle(x, y, s * Math.min(container.offsetHeight, container.offsetWidth), {
+    function calcV(deg: number, spd: number) {
+      var rad = deg * (Math.PI / 180);
+
+      var xComponent = Math.cos(rad);
+      var yComponent = Math.sin(rad);
+
+      var vec = Vector.mult(Vector.normalise(Vector.create(xComponent, yComponent)), spd);
+
+      console.log(vec);
+      console.log(spd);
+
+      return vec;
+    }
+
+    function createBubble(s: number, p: any, degV: number, spdV: number, angV: number, nm: string, gen: string = '', pgen: string = '') {
+      const bubble = Bodies.circle(p.x, p.y, s * Math.min(container.offsetHeight, container.offsetWidth), {
         name: nm,
+        angle: 0,
         label: 'bubble',
         generator: gen,
         prevGen: pgen,
+        size: s,
+        myDegree: degV,
+        mySpeed: spdV,
+        myAngV: angV,
+
         density: 0.0005,
         frictionAir: 0,
         restitution: 1,
         friction: 0,
-        size: s,
+        
         render: {
           strokeStyle: 'transparent',
           sprite: {
@@ -150,8 +170,8 @@ export default {
           mask: 0x0001,
         },
       });
-      Body.setVelocity(bubble, Vector.create(vx, vy));
-      Body.setAngularVelocity(bubble, va);
+      Body.setVelocity(bubble, calcV(degV, spdV));
+      Body.setAngularVelocity(bubble, angV);
 
       Composite.add(world, bubble);
 
@@ -167,11 +187,12 @@ export default {
     }
 
 
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < 8; i++) {
       const margin = 200;
-      const speed = 0.1;
+      const degree = 45;
+      const speed = 0.5;
       const angSpeed = 0.001;
-      createBubble(Common.random(0.1, 0.3), Common.random(margin, container.offsetWidth - margin), Common.random(margin, container.offsetHeight - margin), Common.random(-speed, speed), Common.random(-speed, speed), Common.random(-angSpeed, angSpeed), '8ball');
+      createBubble(Common.random(0.1, 0.3), { x: Common.random(margin, container.offsetWidth - margin), y: Common.random(margin, container.offsetHeight - margin) }, Common.random(-degree, degree), Common.random(-speed, speed), Common.random(-angSpeed, angSpeed), '8ball');
 
     }
 
@@ -188,50 +209,52 @@ export default {
           wallObj = event.pairs[i].bodyA;
         }
 
-        console.log(bubbleObj);
-
-
         if (wallObj.name == 'wallT' && bubbleObj.generator != 'T' && bubbleObj.prevGen != 'T') {
           if (Collision.collides(bubbleObj, world.bodies[2])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'B', 'R');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', 'R');
           } else if (Collision.collides(bubbleObj, world.bodies[3])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'B', 'L');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', 'L');
           } else {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'B', '');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', '');
           }
           
           Body.setPosition(bubble, { x: bubbleObj.position.x, y: bubbleObj.position.y + container.offsetHeight });
-          Body.setVelocity(bubble, bubbleObj.velocity);
+          // Body.setVelocity(bubble, bubbleObj.velocity);
+          Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallB' && bubbleObj.generator != 'B' && bubbleObj.prevGen != 'B') {
           if (Collision.collides(bubbleObj, world.bodies[2])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'T', 'R');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', 'R');
           } else if (Collision.collides(bubbleObj, world.bodies[3])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'T', 'L');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', 'L');
           } else {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'T', '');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x, y: bubbleObj.position.y - container.offsetHeight });
-          Body.setVelocity(bubble, bubbleObj.velocity);
+          // Body.setVelocity(bubble, bubbleObj.velocity);
+          Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallR' && bubbleObj.generator != 'R' && bubbleObj.prevGen != 'R') {
           if (Collision.collides(bubbleObj, world.bodies[0])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'L', 'T');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'L', 'T');
           } else if (Collision.collides(bubbleObj, world.bodies[1])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'L', 'B');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'L', 'B');
           } else {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'L', '');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'L', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x - container.offsetWidth, y: bubbleObj.position.y });
-          Body.setVelocity(bubble, bubbleObj.velocity);
+          // Body.setVelocity(bubble, bubbleObj.velocity);
+          Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallL' && bubbleObj.generator != 'L' && bubbleObj.prevGen != 'L') {
           if (Collision.collides(bubbleObj, world.bodies[0])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'R', 'T');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'R', 'T');
           } else if (Collision.collides(bubbleObj, world.bodies[1])) {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'R', 'B');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'R', 'B');
           } else {
-            var bubble = createBubble(bubbleObj.size, container.offsetWidth/2, container.offsetHeight/2, bubbleObj.velocity.x, bubbleObj.velocity.y, bubbleObj.angularVelocity, bubbleObj.name, 'R', '');
+            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'R', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x + container.offsetWidth, y: bubbleObj.position.y });
-          Body.setVelocity(bubble, bubbleObj.velocity);
+          // Body.setVelocity(bubble, bubbleObj.velocity);
+          Body.setAngle(bubble, bubbleObj.angle);
+
         }
       }
 
@@ -251,8 +274,6 @@ export default {
         }
 
         if (wallObj.name == 'wallT' && bubbleObj.generator != 'T' && bubbleObj.prevGen != 'T') {
-          console.log(bubbleObj);
-          console.log(wallObj);
           Composite.remove(world, bubbleObj);
         } else if (wallObj.name == 'wallB' && bubbleObj.generator != 'B' && bubbleObj.prevGen != 'B') {
           Composite.remove(world, bubbleObj);
