@@ -213,23 +213,6 @@ export default {
       angSpeed = 0.0005;
       createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
     
-      size = 0.2;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
-      degree = -120;
-      speed = 0.08;
-      angSpeed = 0.0007;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
-    
-      size = 0.2;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
-      degree = -68;
-      speed = 0.04;
-      angSpeed = 0.0003;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
-    
-
       size = 0.264;
       x = Common.random(0, 1);
       y = Common.random(0, 1);
@@ -244,14 +227,6 @@ export default {
       degree = 147;
       speed = 0.0478;
       angSpeed = -0.000157;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'publications', 'I');
-
-      size = 0.245;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
-      degree = Common.random(0, 360);
-      speed = Common.random(0, 0.005);
-      angSpeed = Common.random(-0.0003, 0.0003);
       createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'publications', 'I');
     }
 
