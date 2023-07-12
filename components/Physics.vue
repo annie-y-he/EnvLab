@@ -146,9 +146,10 @@ export default {
       return vec;
     }
 
+    console.log(pages[0]._embedded['wp:featuredmedia']);
 
 
-    function createBubble(s, p, degV, spdV, angV, nm, lk, gen = '', pgen = '') {
+    function createBubble(s, p, degV, spdV, angV, nm, gen = '', pgen = '') {
       const bubble = Bodies.circle(p.x, p.y, s * Math.min(container.offsetHeight, container.offsetWidth), {
         name: nm,
         angle: 0,
@@ -159,7 +160,7 @@ export default {
         myDegree: degV,
         mySpeed: spdV,
         myAngV: angV,
-        linkTo: lk,
+        linkTo: pages.find(o => o.slug == nm).link,
 
         density: 0.0005,
         frictionAir: 0,
@@ -169,7 +170,7 @@ export default {
         render: {
           strokeStyle: 'transparent',
           sprite: {
-            texture: '/img/' + nm + '.png',
+            texture: pages.find(p => p.slug == nm)._embedded['wp:featuredmedia'][0].source_url,
             xScale: 0.25 * s * Math.min(container.offsetHeight, container.offsetWidth) / 128,
             yScale: 0.25 * s * Math.min(container.offsetHeight, container.offsetWidth) / 128,
           }
@@ -202,7 +203,7 @@ export default {
       var degree = 45;
       var speed = 0.01;
       var angSpeed = 0.001;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, '8ball', pages.find(o => o.slug == "about").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'about', 'I');
     
       size = 0.2;
       x = Common.random(0, 1);
@@ -210,7 +211,7 @@ export default {
       degree = 20;
       speed = 0.1;
       angSpeed = 0.0005;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'manatee1', pages.find(o => o.slug == "team").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
     
       size = 0.2;
       x = Common.random(0, 1);
@@ -218,7 +219,7 @@ export default {
       degree = -120;
       speed = 0.08;
       angSpeed = 0.0007;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'manatee2', pages.find(o => o.slug == "team").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
     
       size = 0.2;
       x = Common.random(0, 1);
@@ -226,7 +227,7 @@ export default {
       degree = -68;
       speed = 0.04;
       angSpeed = 0.0003;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'manatee3', pages.find(o => o.slug == "team").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
     
 
       size = 0.264;
@@ -235,7 +236,7 @@ export default {
       degree = 389;
       speed = 0.0642;
       angSpeed = 0.000234;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'argonaut', pages.find(o => o.slug == "jjs").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'jjs', 'I');
 
       size = 0.245;
       x = Common.random(0, 1);
@@ -243,7 +244,7 @@ export default {
       degree = 147;
       speed = 0.0478;
       angSpeed = -0.000157;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'warming', pages.find(o => o.slug == "publications").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'publications', 'I');
 
       size = 0.245;
       x = Common.random(0, 1);
@@ -251,7 +252,7 @@ export default {
       degree = Common.random(0, 360);
       speed = Common.random(0, 0.005);
       angSpeed = Common.random(-0.0003, 0.0003);
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'pyramid', pages.find(o => o.slug == "team").link, 'I');
+      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'publications', 'I');
     }
 
     Events.on(engine, 'beforeUpdate', function() {
