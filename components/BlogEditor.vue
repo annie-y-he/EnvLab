@@ -18,6 +18,8 @@
 
 const posts = useFetch('http://184.72.214.248/wp-json/wp/v2/posts?_embed').data._rawValue;
 
+console.log(posts[0]);
+
 function getImage(item) {
   if (item._embedded['wp:featuredmedia'] && item._embedded['wp:featuredmedia'][0]) {
     return item._embedded['wp:featuredmedia'][0].source_url;
