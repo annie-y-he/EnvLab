@@ -4,18 +4,24 @@ import Matter from 'matter-js';
 
 export default {
 
-
   setup() {
     const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
+    const media = useFetch('http://184.72.214.248/wp-json/wp/v2/media').data
 
     return {
-      pages
+      pages,
+      media
     }
   },
   mounted() {
 
     const { Collision, Engine, Bounds, Detector, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector} = Matter;
     const pages = JSON.parse(JSON.stringify(this.pages));
+    const media = JSON.parse(JSON.stringify(this.media));
+    const links = document.getElementById("content");
+    const text = document.getElementById("text");
+
+
     const engine = Engine.create();
     const world = engine.world;
 
@@ -146,11 +152,20 @@ export default {
       return vec;
     }
 
-    console.log(pages[0]._embedded['wp:featuredmedia']);
 
 
     function createBubble(s, p, degV, spdV, angV, nm, gen = '', pgen = '') {
-      const bubble = Bodies.circle(p.x, p.y, s * Math.min(container.offsetHeight, container.offsetWidth), {
+      var tex, lk;
+
+      if (typeof nm == 'string') {
+        tex = pages.find(p => p.slug == nm)._embedded['wp:featuredmedia'][0].source_url;
+        lk = pages.find(o => o.slug == nm).link;
+      } else {
+        tex = nm.source_url;
+        lk = ''
+      }
+
+      const bubble = Bodies.circle(p.x * container.offsetWidth, p.y * container.offsetHeight, s * Math.min(container.offsetHeight, container.offsetWidth), {
         name: nm,
         angle: 0,
         label: 'bubble',
@@ -160,7 +175,7 @@ export default {
         myDegree: degV,
         mySpeed: spdV,
         myAngV: angV,
-        linkTo: pages.find(o => o.slug == nm).link,
+        linkTo: lk,
 
         density: 0.0005,
         frictionAir: 0,
@@ -170,7 +185,7 @@ export default {
         render: {
           strokeStyle: 'transparent',
           sprite: {
-            texture: pages.find(p => p.slug == nm)._embedded['wp:featuredmedia'][0].source_url,
+            texture: tex,
             xScale: 0.25 * s * Math.min(container.offsetHeight, container.offsetWidth) / 128,
             yScale: 0.25 * s * Math.min(container.offsetHeight, container.offsetWidth) / 128,
           }
@@ -180,6 +195,7 @@ export default {
           mask: 0x0001,
         },
       });
+
       Body.setVelocity(bubble, calcV(degV, spdV));
       Body.setAngularVelocity(bubble, angV);
 
@@ -197,44 +213,58 @@ export default {
     }
 
     function initBubble(){
-      var size = 0.25;
-      var x = Common.random(0, 1);
-      var y = Common.random(0, 1);
-      var degree = 45;
-      var speed = 0.01;
-      var angSpeed = 0.001;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'about', 'I');
+      var size, x, y, degree, speed, angSpeed;
+
+      Common._seed = 6;
+
+      media.forEach(item => {
+        size = Common.random(0.1, 0.15);
+        x = Common.random(0, 0.55);
+        y = Common.random(0.15, 0.85);
+        degree = Common.random(0, 360);
+        speed = Common.random(0, 0.1);
+        angSpeed = Common.random(-0.001, 0.001);
+
+        if (pages.find(p => p.slug == 'home').id == item.post && item.id != pages.find(p => p.slug == 'home')._embedded['wp:featuredmedia'][0].id) {
+          createBubble(size, { x: x, y: y }, degree, speed, angSpeed, item, 'I');
+        }
+      });
+
+      size = 0.25;
+      x = 0.2;
+      y = 0.25;
+      degree = 45;
+      speed = 0.01;
+      angSpeed = 0.001;
+      createBubble(size, { x: x, y: y }, degree, speed, angSpeed, 'about', 'I');
     
       size = 0.2;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
-      degree = 20;
-      speed = 0.1;
+      x = 0.4;
+      y = 0.3;
+      degree = -53;
+      speed = 0.15;
       angSpeed = 0.0005;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'team', 'I');
+      createBubble(size, { x: x, y: y }, degree, speed, angSpeed, 'team', 'I');
     
       size = 0.264;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
+      x = 0.8;
+      y = 0.45;
       degree = 389;
       speed = 0.0642;
       angSpeed = 0.000234;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'jjs', 'I');
+      createBubble(size, { x: x, y: y }, degree, speed, angSpeed, 'jjs', 'I');
 
       size = 0.245;
-      x = Common.random(0, 1);
-      y = Common.random(0, 1);
+      x = 0.6;
+      y = 0.7;
       degree = 147;
       speed = 0.0478;
       angSpeed = -0.000157;
-      createBubble(size, { x: (container.offsetWidth) * x, y: (container.offsetHeight) * y }, degree, speed, angSpeed, 'publications', 'I');
+      createBubble(size, { x: x, y: y }, degree, speed, angSpeed, 'publications', 'I');
     }
 
-    Events.on(engine, 'beforeUpdate', function() {
-      if (bubbles.bodies.length < 4 ) {
-        initBubble();
-      }
-    })
+
+    initBubble();
 
     window.addEventListener('mousedown', clickHandler);
 
@@ -243,25 +273,37 @@ export default {
       const clickedPosition = { x: pageX, y: pageY };
 
       bubbles.bodies.forEach(bubble => {
-        if (Bounds.contains(bubble.bounds, clickedPosition)) {
+        if (Bounds.contains(bubble.bounds, clickedPosition) && bubble.linkTo != '') {
           window.location.href = bubble.linkTo;
         }
       });
-
     }
 
     window.addEventListener('mousemove', hoverHandler);
 
+
     function hoverHandler(event) {
-      container.style.cursor = 'default';
+
       const { pageX, pageY } = event;
       const hoverPosition = { x: pageX, y: pageY };
-
-      bubbles.bodies.forEach(bubble => {
-        if (Bounds.contains(bubble.bounds, hoverPosition)) {
-          container.style.cursor = 'pointer';
+      if (!text.contains(document.elementFromPoint(pageX, pageY))) {
+        container.style.cursor = 'default';
+        for (let i = 0; i < links.children.length; i++) {
+          links.children[i].style.color = '';
         }
-      });
+        for (const bubble of bubbles.bodies) {
+          if (Bounds.contains(bubble.bounds, hoverPosition) && bubble.linkTo != '' ) {
+            container.style.cursor = 'pointer';
+            document.getElementById(bubble.name).style.color = 'yellow';
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < links.children.length; i++) {
+          links.children[i].style.color = '';
+        }
+      }
+
     }
 
 
@@ -280,48 +322,44 @@ export default {
 
         if (wallObj.name == 'wallT' && bubbleObj.generator != 'T' && bubbleObj.prevGen != 'T') {
           if (Collision.collides(bubbleObj, world.bodies[2])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'B', 'R');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', 'R');
           } else if (Collision.collides(bubbleObj, world.bodies[3])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'B', 'L');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', 'L');
           } else {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'B', '');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'B', '');
           }
           
           Body.setPosition(bubble, { x: bubbleObj.position.x, y: bubbleObj.position.y + container.offsetHeight });
-          // Body.setVelocity(bubble, bubbleObj.velocity);
           Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallB' && bubbleObj.generator != 'B' && bubbleObj.prevGen != 'B') {
           if (Collision.collides(bubbleObj, world.bodies[2])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'T', 'R');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', 'R');
           } else if (Collision.collides(bubbleObj, world.bodies[3])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'T', 'L');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', 'L');
           } else {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'T', '');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, 'T', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x, y: bubbleObj.position.y - container.offsetHeight });
-          // Body.setVelocity(bubble, bubbleObj.velocity);
           Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallR' && bubbleObj.generator != 'R' && bubbleObj.prevGen != 'R') {
           if (Collision.collides(bubbleObj, world.bodies[0])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', 'T');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', 'T');
           } else if (Collision.collides(bubbleObj, world.bodies[1])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', 'B');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', 'B');
           } else {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', '');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'L', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x - container.offsetWidth, y: bubbleObj.position.y });
-          // Body.setVelocity(bubble, bubbleObj.velocity);
           Body.setAngle(bubble, bubbleObj.angle);
         } else if (wallObj.name == 'wallL' && bubbleObj.generator != 'L' && bubbleObj.prevGen != 'L') {
           if (Collision.collides(bubbleObj, world.bodies[0])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', 'T');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', 'T');
           } else if (Collision.collides(bubbleObj, world.bodies[1])) {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', 'B');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', 'B');
           } else {
-            var bubble = createBubble(bubbleObj.size, { x: container.offsetWidth/2, y: container.offsetHeight/2 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', '');
+            var bubble = createBubble(bubbleObj.size, { x: 0.5, y: 0.5 }, bubbleObj.myDegree, bubbleObj.mySpeed, bubbleObj.myAngV, bubbleObj.name, bubbleObj.linkTo, 'R', '');
           }
           Body.setPosition(bubble, { x: bubbleObj.position.x + container.offsetWidth, y: bubbleObj.position.y });
-          // Body.setVelocity(bubble, bubbleObj.velocity);
           Body.setAngle(bubble, bubbleObj.angle);
 
         }
@@ -384,7 +422,18 @@ export default {
         {{ pages.find(page => page.slug === 'home').title.rendered }}
       </h1>
       <p id="content">
-        drag and drop to open
+        <a :href="pages.find(page => page.slug === 'about').link" id="about">
+          {{ pages.find(page => page.slug === 'about').title.rendered }}
+        </a>
+        <a :href="pages.find(page => page.slug === 'jjs').link" id="jjs">
+          {{ pages.find(page => page.slug === 'jjs').title.rendered }}
+        </a>
+        <a :href="pages.find(page => page.slug === 'publications').link" id="publications">
+          {{ pages.find(page => page.slug === 'publications').title.rendered }}
+        </a>
+        <a :href="pages.find(page => page.slug === 'team').link" id="team">
+          {{ pages.find(page => page.slug === 'team').title.rendered }}
+        </a>
       </p>
     </div>
 
@@ -429,27 +478,58 @@ export default {
 
 .overlay {
   position: fixed;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
-  pointer-events: none;
+  height: 30vh;
   z-index: 10;
+  background-image: linear-gradient(to bottom, #00000000, #000000);
 
   .text {
-    padding: 2vw;
-    position: fixed;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: calc(min(100vh, 100vw) / 2.5);
-    height: calc(min(100vh, 100vw) / 2.5);
+    width: 100%;
+    height: 100%;
     color: white;
-    text-align: center;
-    scrollbar-width: 5px;
+
+    #title {
+      width: 60%;
+      height: 100%;
+      padding: 1%;
+      padding-left: 5em;
+    }
+
+    #content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 40%;
+      height: 100%;
+      padding: 1%;
+      padding-right: 10em;
+
+      a {
+        align-self: flex-end;
+        display: block;
+        margin: 0.25em;
+        width: fit-content;
+        color: white;
+        text-decoration: none;
+
+        
+        &:hover {
+          color: yellow !important;
+        }
+
+        .hovered {
+          color: yellow;
+        }
+      }
+    }
   }
 }
 
