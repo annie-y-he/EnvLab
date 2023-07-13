@@ -1,5 +1,5 @@
 <template>
-    <div>
-        team page
-    </div>
+  <div>
+    team page
+  </div>
 </template>

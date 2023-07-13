@@ -1,5 +1,5 @@
 <template>
-    <div>
-        publications page
-    </div>
+  <div>
+    publications page
+  </div>
 </template>
