@@ -522,11 +522,11 @@ export default {
 
         
         &:hover {
-          color: yellow !important;
+          color: rgb(255, 128, 0) !important;
         }
 
         .hovered {
-          color: yellow;
+          color: rgb(255, 128, 0);
         }
       }
     }
