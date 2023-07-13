@@ -1,7 +1,11 @@
 <template>
-  <div class="overlay">
-    <Physics />
+  <div>
+    <!-- <Physics /> -->
     <!-- <BlogEditor /> -->
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+
   </div>
 </template>
 
