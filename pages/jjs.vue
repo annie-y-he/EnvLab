@@ -1,7 +1,11 @@
 <template>
-  <div>redirecting</div>
+  <div>Redirecting...</div>
 </template>
 
 <script>
-window.location.href = 'https://jenniferjacquet.com';
+export default {
+  mounted() {
+    window.location.href = 'https://jenniferjacquet.com';
+  },
+};
 </script>
