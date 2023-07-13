@@ -18,7 +18,7 @@ export default {
     const { Collision, Engine, Bounds, Detector, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector} = Matter;
     const pages = JSON.parse(JSON.stringify(this.pages));
     const media = JSON.parse(JSON.stringify(this.media));
-    const links = document.getElementById("content");
+    const links = document.getElementById("menu");
     const text = document.getElementById("text");
 
 
@@ -273,7 +273,7 @@ export default {
       const clickedPosition = { x: pageX, y: pageY };
 
       bubbles.bodies.forEach(bubble => {
-        if (Bounds.contains(bubble.bounds, clickedPosition) && bubble.linkTo != '') {
+        if (Bounds.contains(bubble.bounds, clickedPosition) && bubble.linkTo != '' && !text.contains(document.elementFromPoint(pageX, pageY))) {
           window.location.href = bubble.linkTo;
         }
       });
@@ -283,7 +283,6 @@ export default {
 
 
     function hoverHandler(event) {
-
       const { pageX, pageY } = event;
       const hoverPosition = { x: pageX, y: pageY };
       if (!text.contains(document.elementFromPoint(pageX, pageY))) {
@@ -418,10 +417,14 @@ export default {
   <div class="overlay">
 
     <div class="text" id="text">
-      <h1 id="title">
-        {{ pages.find(page => page.slug === 'home').title.rendered }}
-      </h1>
-      <p id="content">
+      <div id="left">
+        <h1 id="title">
+          {{ pages.find(page => page.slug === 'home').title.rendered }}
+        </h1>
+        <span v-html="pages.find(page => page.slug === 'home').content.rendered" id="copyright"></span>
+      </div>
+
+      <p id="menu">
         <a :href="pages.find(page => page.slug === 'about').link" id="about">
           {{ pages.find(page => page.slug === 'about').title.rendered }}
         </a>
@@ -496,36 +499,53 @@ export default {
     height: 100%;
     color: white;
 
-    #title {
+    #left {
       width: 60%;
       height: 100%;
       padding: 1%;
-      padding-left: 5em;
+      padding-left: 10%;
+      display: flex;
+      flex-direction: column;
+
+      #title {
+        height: 3em;
+        font-size: 24px
+
+      }
+
+      #copyright {
+        font-size: 10px;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-bottom: 15px;
+      }
     }
 
-    #content {
+ 
+
+    #menu {
       display: flex;
       flex-direction: column;
       justify-content: center;
       width: 40%;
       height: 100%;
       padding: 1%;
-      padding-right: 10em;
+      padding-right: 10%;
 
       a {
         align-self: flex-end;
         display: block;
         margin: 0.25em;
         width: fit-content;
+        height: fit-content;
         color: white;
         text-decoration: none;
+        text-align: right;
 
-        
         &:hover {
-          color: rgb(255, 128, 0) !important;
-        }
-
-        .hovered {
           color: rgb(255, 128, 0);
         }
       }
