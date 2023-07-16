@@ -7,7 +7,7 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
 
     <div class="text" id="text">
       <div id="top">
-        <a  href="http://184.72.214.248" id="title">
+        <a  href="http://184.72.214.248:3000" id="title">
           {{ pages.find(page => page.slug === 'home').title.rendered }}
         </a>
         <p id="menu">
