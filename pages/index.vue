@@ -460,15 +460,8 @@ export default {
 }
 
 .underlay {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
-  text-align: center;
-  z-index: 1;
   .cover {
     margin: 0;
     position: absolute;
@@ -476,19 +469,14 @@ export default {
     height: 100%;
     object-fit: cover;
   }
-
 }
 
 .overlay {
   position: fixed;
   bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 30vh;
-  z-index: 10;
+  z-index: 3;
   background-image: linear-gradient(to bottom, #00000000, #000000);
 
   .text {
@@ -524,8 +512,6 @@ export default {
       }
     }
 
- 
-
     #menu {
       display: flex;
       flex-direction: column;
@@ -541,8 +527,6 @@ export default {
         margin: 0.25em;
         width: fit-content;
         height: fit-content;
-        color: white;
-        text-decoration: none;
         text-align: right;
 
         &:hover {
