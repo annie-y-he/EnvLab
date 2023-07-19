@@ -19,7 +19,7 @@ export default {
     const pages = JSON.parse(JSON.stringify(this.pages));
     const media = JSON.parse(JSON.stringify(this.media));
     const links = document.getElementById("menu");
-    const text = document.getElementById("text");
+    const text = document.getElementById("homePage");
 
 
     const engine = Engine.create();
@@ -416,12 +416,12 @@ export default {
 
   <div class="overlay">
 
-    <div class="text" id="text">
+    <div id="homePage">
       <div id="left">
         <h1 id="title">
           {{ pages.find(page => page.slug === 'home').title.rendered }}
         </h1>
-        <span v-html="pages.find(page => page.slug === 'home').content.rendered" id="copyright"></span>
+        <CustomFooter id="homeFooter"/>
       </div>
 
       <p id="menu">
@@ -452,6 +452,8 @@ export default {
 
 <style scoped lang="scss">
 
+@import '@/styles/media.scss';
+
 .physics {
   position: fixed;
   width: 100vw;
@@ -472,43 +474,46 @@ export default {
 }
 
 .overlay {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
   height: 30vh;
-  z-index: 3;
-  background-image: linear-gradient(to bottom, #00000000, #000000);
 
-  .text {
+  #homePage {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
+    font-size: 14px;
     color: white;
 
     #left {
       width: 60%;
       height: 100%;
-      padding: 1%;
+      padding: 10px;
       padding-left: 10%;
       display: flex;
       flex-direction: column;
 
-      #title {
-        height: 3em;
-        font-size: 24px
-
+      @media (max-width: $bpw-phone) {
+        padding-left: 0;
       }
 
-      #copyright {
-        font-size: 10px;
+      #title {
+        height: 3em;
+        font-size: 24px;
+        flex-basis: 50%;
+
+        @media (max-width: $bpw-phone) {
+          padding-left: 10px;
+        }
+
+      }
+      
+      #homeFooter {
+        flex-basis: 50%;
         display: flex;
-        width: 100%;
-        height: 100%;
         flex-direction: column;
         justify-content: flex-end;
-        padding-bottom: 15px;
+        padding-bottom: 20px;
       }
     }
 
@@ -520,6 +525,10 @@ export default {
       height: 100%;
       padding: 1%;
       padding-right: 10%;
+
+      @media (max-width: $bpw-phone) {
+        padding-right: 10px;
+      }
 
       a {
         align-self: flex-end;
@@ -535,25 +544,5 @@ export default {
       }
     }
   }
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #ffffffb0;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #000000a4;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #000000;
 }
 </style>
