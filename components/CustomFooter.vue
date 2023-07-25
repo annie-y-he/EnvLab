@@ -17,6 +17,7 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
   width: 100%;
   flex-direction: row;
   color: white;
+  text-transform: uppercase;
   
   @media (max-width: $bpw-phone) {
     padding-left: 10px;
@@ -26,6 +27,7 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
   > *:not(:last-child) {
     margin-right: 10px;
   }
+  
 }
 
 </style>

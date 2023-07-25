@@ -8,12 +8,14 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
     <div class="text">
       <CustomHeader />
 
-      <div id="aboutPage" v-html="pages.find(page => page.slug === 'about').content.rendered"></div>
+      <div id="aboutPage" class="content" v-html="pages.find(page => page.slug === 'about').content.rendered"></div>
         
       <CustomFooter class="footer"/>
     </div>
 
   </div>
+
+  <Physics />
 
   <div class="underlay">
     <img :src="pages.find(page => page.slug === 'home')._embedded['wp:featuredmedia'][0].source_url" alt="Featured Image" class="cover" />
@@ -24,19 +26,10 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
 @import '@/styles/media.scss';
 
 #aboutPage {
-  color: black;
-  width: 100%;
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px;
   display: flex;
 
   @media (max-width: $bpw-phone) {
     flex-direction: column;
-  }
-
-  a {
-    text-decoration: underline;
   }
 
   > p {

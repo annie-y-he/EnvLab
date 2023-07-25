@@ -10,10 +10,10 @@ console.log(posts);
     <div class="text">
       <CustomHeader />
 
-      <div id="publicationsPage">
+      <div id="publicationsPage" class="content">
         <div v-for="post in posts" :key="post.id">
-          <a :href="post.link" class="title">{{ post.title.rendered }}</a>
-          <span v-html="post.excerpt.rendered" class="excerpt"></span>
+          <div class="title">{{ post.title.rendered }}</div>
+          <span v-html="post.content.rendered" class="article"></span>
         </div>
       </div>
         
@@ -21,6 +21,8 @@ console.log(posts);
     </div>
 
   </div>
+
+  <Physics />
 
   <div class="underlay">
     <img :src="pages.find(page => page.slug === 'home')._embedded['wp:featuredmedia'][0].source_url" alt="Featured Image" class="cover" />
@@ -30,22 +32,14 @@ console.log(posts);
 <style scoped lang="scss">
 
 #publicationsPage {
-  color: black;
-  background-color: white;
-  border-radius: 10px;
-  padding: 50px;
   
   .title {
     display: block;
-    text-decoration: underline;
     font-size: 22px;
     margin-bottom: 10px;
-  }
+    text-transform: uppercase;
+    font-weight: bold;
 
-  .excerpt {
-    > :last-child {
-      margin-bottom: 20px;
-    }
   }
 
 }

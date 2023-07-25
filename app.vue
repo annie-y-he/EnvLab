@@ -9,19 +9,18 @@
 <style lang="scss">
 
 @import '@/styles/media.scss';
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto Slab');
 
 *{
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Slab', serif;
   box-sizing: border-box;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
 
   &:hover {
     font-weight: bold;
@@ -37,6 +36,13 @@ a {
   @media (max-width: $bpw-phone) {
     padding: 0;
   }
+}
+
+.content {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 50px;
 }
 
 .overlay {
@@ -62,8 +68,108 @@ a {
 }
 
 .footer {
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 120px;
+  margin-bottom: 10px;
+
+  #copyright > * {
+    flex-basis: 50%;
+  }
+
+  #copyright > :last-child {
+    text-align: right;
+  }
+}
+
+.article {
+  > * {
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+
+  > :last-child {
+    margin-bottom: 40px;
+  }
+
+  > ul {
+    margin-left: 50px;
+    ul {
+      margin-left: 30px;
+    }
+  }
+
+  .has-text-align-center {
+    text-align: center;
+  }
+
+  .has-text-align-right {
+    text-align: right;
+  }
+  
+  > figure, .wp-block-cover, .wp-block-file {
+    margin-left: 30px;
+    max-width: 80%;
+    height: fit-content;
+    width: auto;
+
+    * {
+      max-width: 100%;
+      max-height: 60vh;
+      width: auto;
+      height: auto;;
+    }
+
+    audio {
+      height: 50px;
+      width: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 60vh;
+    }
+
+  }
+
+  .wp-block-file {
+    display: flex;
+    height: fit-content;
+
+    > * {
+      vertical-align: middle;
+    }
+
+    .wp-block-file__button {
+      color: white;
+      text-decoration: none;
+      height: 2em;
+      font-size: 13px;
+      margin: 0 10px;
+      padding: 5px 2em 0 2em;
+      border-radius: 1em;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+
+
+  > figcaption {
+    font-size: 12px;
+    width: 50%;
+  }
+
+  blockquote {
+    > p {
+      margin-bottom: 20px;
+    }
+
+    > cite {
+      display: block;
+      width: 100%;
+      padding-left: 30px;
+      padding-right: 10vw;
+    }
+
+  }
 }
 
 /* width */

@@ -80,6 +80,9 @@ export default {
     display: block;
     min-width: 50px;
     margin-right: 50px;
+    text-transform: uppercase;
+    text-decoration: none;
+
     &:hover {
       font-weight: bold;
     }
@@ -106,6 +109,12 @@ export default {
       height: fit-content;
       text-align: right;
       padding-right: 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      @media (max-width: $bpw-phone) {
+        font-size: 8px;
+      }
 
       &:hover {
         color: rgb(255, 128, 0);

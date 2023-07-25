@@ -246,7 +246,7 @@ export default {
       angSpeed = 0.0005;
       createBubble(size, { x: x, y: y }, degree, speed, angSpeed, 'team', 'I');
     
-      size = 0.264;
+      size = 0.15;
       x = 0.8;
       y = 0.45;
       degree = 389;
@@ -501,6 +501,7 @@ export default {
         height: 3em;
         font-size: 24px;
         flex-basis: 50%;
+        text-transform: uppercase;
 
         @media (max-width: $bpw-phone) {
           padding-left: 10px;
@@ -537,6 +538,8 @@ export default {
         width: fit-content;
         height: fit-content;
         text-align: right;
+        text-decoration: none;
+        text-transform: uppercase;
 
         &:hover {
           color: rgb(255, 128, 0);
