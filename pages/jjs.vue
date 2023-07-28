@@ -13,7 +13,7 @@
 <script>
 export default {
   setup() {
-    const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
+    const pages = useFetch('http://54.197.76.189/wp-json/wp/v2/pages?_embed').data
 
     return {
       pages,
