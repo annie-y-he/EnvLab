@@ -7,6 +7,6 @@ export default defineNuxtConfig({
 module.exports = {
   server: {
     port: 3000,
-    host: '::',
+    host: '44.207.42.197',
   },
 };
