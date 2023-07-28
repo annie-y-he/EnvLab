@@ -8,7 +8,7 @@ const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
     <div class="text">
       <CustomHeader />
 
-      <div id="teanPage" class="singlePage content" v-html="pages.find(page => page.slug === 'about').content.rendered"></div>
+      <div id="teamPage" class="content" v-html="pages.find(page => page.slug === 'team').content.rendered"></div>
         
       <CustomFooter class="footer"/>
     </div>

@@ -9,6 +9,8 @@
 <style lang="scss">
 
 @import '@/styles/media.scss';
+// @import '@/styles/wp-css/style.css';
+
 @import url('https://fonts.googleapis.com/css?family=Roboto Slab');
 
 *{
@@ -169,7 +171,7 @@ a {
   }
 }
 
-.singlePage {
+#aboutPage {
   > * {
     margin-bottom: 20px;
   }
@@ -187,6 +189,37 @@ a {
       width: auto;
       height: auto;;
     }
+  }
+}
+
+#teamPage {
+  > * {
+    figure {
+      height: fit-content;
+      width: fit-content;
+
+      img {
+        height: 400px;
+        width: 300px;
+        object-fit: cover;
+      }
+    }
+
+    .wp-block-media-text__content {  
+      padding: 50px;
+      @media (max-width: $bpw-tablet) {
+        padding: 20px 0;
+      }
+    }
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @media (max-width: $bpw-tablet) {
+      flex-direction: column;
+    }
+
   }
 }
 
