@@ -39,7 +39,7 @@ export default {
 
 <template>
       <div id="header">
-        <a  href="http://184.72.214.248:3000" id="title">
+        <a  href="http://44.207.42.197:3000" id="title">
           {{ pages.find(page => page.slug === 'home').title.rendered }}
         </a>
         <p id="menu">
