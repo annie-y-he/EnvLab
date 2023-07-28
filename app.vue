@@ -18,6 +18,7 @@
   padding: 0;
   font-family: 'Roboto Slab', serif;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 a {
@@ -61,15 +62,11 @@ a {
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
   .cover {
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    overflow: hidden;
-    pointer-events: none;
   }
 }
 
