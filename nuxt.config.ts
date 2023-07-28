@@ -17,7 +17,7 @@ module.exports = {
   },
   server: {
     port: 3000,
-    host: '184.72.214.248',
+    host: '54.197.76.189',
   },
 };
 
