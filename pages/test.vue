@@ -116,19 +116,5 @@ export default {
   height: 100vh;
   z-index: 2;
 }
-
-.underlay {
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-
-  .cover {
-    margin: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
   
 </style>

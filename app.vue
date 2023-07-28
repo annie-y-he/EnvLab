@@ -61,11 +61,13 @@ a {
   width: 100vw;
   height: 100vh;
   z-index: 1;
+  overflow: hidden;
   .cover {
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    overflow: hidden;
   }
 }
 

@@ -43,16 +43,5 @@ export default {
   z-index: 2;
 
 }
-.underlay {
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  .cover {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
 
 </style>
