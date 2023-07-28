@@ -1,5 +1,5 @@
 <script setup>
-const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
+const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
 </script>
 
 <template>
@@ -9,7 +9,7 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
     <div class="text">
       <CustomHeader />
 
-      <div id="aboutPage" class="singlePage content" v-html="pages.find(page => page.slug === 'about').content.rendered"></div>
+      <div id="aboutPage" class="content" v-html="pages.find(page => page.slug === 'about').content.rendered"></div>
         
       <CustomFooter class="footer"/>
     </div>
@@ -23,7 +23,6 @@ const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '@/styles/media.scss';
-
 </style>

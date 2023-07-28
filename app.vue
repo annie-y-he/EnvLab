@@ -169,7 +169,7 @@ a {
   }
 }
 
-.singlePage {
+#aboutPage {
   > * {
     margin-bottom: 20px;
   }
@@ -187,6 +187,48 @@ a {
       width: auto;
       height: auto;;
     }
+  }
+}
+
+#teamPage {
+  .wp-block-media-text {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    @media (max-width: $bpw-phone) {
+      flex-direction: column;
+    }
+
+    > figure {
+      height: fit-content;
+      width: fit-content;
+      
+      img {
+        height: 200px;
+        width: 150px;
+        object-fit: cover;
+
+        @media (max-width: $bpw-phone) {
+        }
+      }
+    }
+
+    > .wp-block-media-text__content {
+      width: 60%;
+      height: fit-content;
+      padding-left: 50px;
+
+      @media (max-width: $bpw-phone) {
+        height: fit-content;
+        width: 100%;
+        padding-left: 0;
+        padding-top: 20px;
+
+      }
+      
+    }
+
+    margin-bottom: 50px;
   }
 }
 
