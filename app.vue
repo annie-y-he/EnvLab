@@ -62,12 +62,14 @@ a {
   height: 100vh;
   z-index: 1;
   overflow: hidden;
+  pointer-events: none;
   .cover {
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
     overflow: hidden;
+    pointer-events: none;
   }
 }
 
