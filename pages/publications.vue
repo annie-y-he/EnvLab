@@ -39,7 +39,6 @@ console.log(posts);
     margin-bottom: 10px;
     text-transform: uppercase;
     font-weight: bold;
-
   }
 
 }

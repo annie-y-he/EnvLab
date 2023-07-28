@@ -150,8 +150,6 @@ a {
     }
   }
 
-
-
   > figcaption {
     font-size: 12px;
     width: 50%;
@@ -168,7 +166,27 @@ a {
       padding-left: 30px;
       padding-right: 10vw;
     }
+  }
+}
 
+.singlePage {
+  > * {
+    margin-bottom: 20px;
+  }
+
+  figure{
+    width: 100%;
+    height: fit-content;
+    width: auto;
+    display: flex;
+    justify-content: center;
+
+    * {
+      max-width: 100%;
+      max-height: 60vh;
+      width: auto;
+      height: auto;;
+    }
   }
 }
 
