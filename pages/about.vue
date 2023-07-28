@@ -1,5 +1,5 @@
 <script setup>
-const pages = useFetch('http://54.197.76.189/wp-json/wp/v2/pages?_embed').data
+const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
 </script>
 
 <template>
