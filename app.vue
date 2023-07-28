@@ -196,18 +196,22 @@ a {
 #teamPage {
   > * {
     figure {
-      height: fit-content;
-      width: fit-content;
+      height: 400px;
+      width: 300px;
 
       img {
-        height: 400px;
-        width: 300px;
+        height: 100%;
+        width: 100%;
         object-fit: cover;
       }
+
+      flex: 0 0 auto;
     }
 
     .wp-block-media-text__content {  
       padding: 50px;
+      width: 100%;
+      flex: 1;
       @media (max-width: $bpw-tablet) {
         padding: 20px 0;
       }
