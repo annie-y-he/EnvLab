@@ -1,13 +1,13 @@
 <script>
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import vertexShader from "~/shaders/vertex.glsl?raw";
 import fragmentShader from "~/shaders/fragment.glsl?raw";
 import img from "/assets/test.png";
 
 export default {
   setup() {
-    const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
+    const pages = useFetch('http://184.72.214.248/wp-json/wp/v2/pages?_embed').data
 
     return {
       pages,
@@ -35,7 +35,7 @@ export default {
 
         this.clock = new THREE.Clock();
 
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
         this.onResize();
       }
@@ -58,7 +58,7 @@ export default {
           side: THREE.DoubleSide,
         });
         this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.mesh.position.set(0.0, 0.0, 0);
+        this.mesh.position.set(0.0, 0.0, -1);
         this.scene.add(this.mesh);
       }
 
