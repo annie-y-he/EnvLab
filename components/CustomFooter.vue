@@ -1,10 +1,10 @@
 <script setup>
-const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
+const tagline = useFetch('http://44.207.42.197/wp-json/wp/v2/tagline').data
 </script>
 
 <template>
   <div>
-    <div v-html="pages.find(page => page.slug === 'home').content.rendered" id="copyright"></div>
+    <div v-html="tagline" id="copyright"></div>
   </div>
 </template>
 
@@ -15,17 +15,13 @@ const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
   font-size: 10px;
   display: flex;
   width: 100%;
-  flex-direction: row;
+  justify-content: space-between;
   color: white;
   text-transform: uppercase;
   
   @media (max-width: $bpw-phone) {
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  > *:not(:last-child) {
-    margin-right: 10px;
   }
   
 }

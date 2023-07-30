@@ -3,7 +3,15 @@
 import Matter from 'matter-js';
 
 export default {
-
+  head() {
+    return {
+      title: 'Your Page Title',
+      // link: [
+      //   { rel: 'icon', type: 'image/png', 'http://44.207.42.197/wp-content/uploads/2023/07/cropped-8ball-32x32.png' },
+      //   // Add other meta tags, stylesheets, etc., as needed
+      // ],
+    };
+  },
   setup() {
     const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
     const media = useFetch('http://44.207.42.197/wp-json/wp/v2/media').data
@@ -23,7 +31,7 @@ export default {
 
 
     const links = document.getElementById("menu");
-    const text = document.getElementById("homePage");
+    const text = document.getElementById("homeHeader");
 
     console.log(this.menu);
 
@@ -420,31 +428,12 @@ export default {
 <template>
 
   <div class="overlay">
-
-    <div id="homePage">
-      <div id="left">
-        <h1 id="title">
-          {{ pages.find(page => page.slug === 'home').title.rendered }}
-        </h1>
-        <CustomFooter id="homeFooter"/>
-      </div>
-
-      <p id="menu">
-        <a :href="pages.find(page => page.slug === 'about').link" id="about">
-          {{ pages.find(page => page.slug === 'about').title.rendered }}
-        </a>
-        <a :href="pages.find(page => page.slug === 'jjs').link" id="jjs">
-          {{ pages.find(page => page.slug === 'jjs').title.rendered }}
-        </a>
-        <a :href="pages.find(page => page.slug === 'publications').link" id="publications">
-          {{ pages.find(page => page.slug === 'publications').title.rendered }}
-        </a>
-        <a :href="pages.find(page => page.slug === 'team').link" id="team">
-          {{ pages.find(page => page.slug === 'team').title.rendered }}
-        </a>
-      </p>
+    <div id="homeHeader">
+      <CustomHeader />
     </div>
-
+    <div id="homeFooter">
+      <CustomFooter />
+    </div>
   </div>
 
   <div ref="scene" class="physics"></div>
@@ -467,78 +456,21 @@ export default {
 }
 
 .overlay {
-  height: 30vh;
+  pointer-events: none;
+}
 
-  #homePage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    font-size: 14px;
-    color: white;
+#homeHeader {
+  padding: 0 50px;
+  background-image: linear-gradient(to bottom, #000000, #00000000);
+  pointer-events: auto;
+}
 
-    #left {
-      width: 60%;
-      height: 100%;
-      padding: 10px;
-      padding-left: 10%;
-      display: flex;
-      flex-direction: column;
-
-      @media (max-width: $bpw-phone) {
-        padding-left: 0;
-      }
-
-      #title {
-        height: 3em;
-        font-size: 24px;
-        flex-basis: 50%;
-        text-transform: uppercase;
-
-        @media (max-width: $bpw-phone) {
-          padding-left: 10px;
-        }
-
-      }
-      
-      #homeFooter {
-        flex-basis: 50%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: 20px;
-      }
-    }
-
-    #menu {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 40%;
-      height: 100%;
-      padding: 1%;
-      padding-right: 10%;
-
-      @media (max-width: $bpw-phone) {
-        padding-right: 10px;
-      }
-
-      a {
-        align-self: flex-end;
-        display: block;
-        margin: 0.25em;
-        width: fit-content;
-        height: fit-content;
-        text-align: right;
-        text-decoration: none;
-        text-transform: uppercase;
-
-        &:hover {
-          color: $hover-color;
-        }
-      }
-    }
-  }
+#homeFooter {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 30px 50px;
+  background-image: linear-gradient(to bottom, #00000000, #000000);
+  pointer-events: auto;
 }
 </style>

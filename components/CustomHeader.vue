@@ -2,25 +2,30 @@
 
 export default {
   setup() {
-    const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
+    const siteTitle = useFetch('http://44.207.42.197/wp-json/wp/v2/site_title').data
+    const menu = useFetch('http://44.207.42.197/wp-json/wp/v2/my_menu').data
+
     const isActive = computed(() => {
-      return (routeName) => useRoute().name === routeName;
+      return (routeName) => useRoute().path === new URL(routeName).pathname;
     });
 
     return {
-      pages,
+      menu,
+      siteTitle,
       isActive,
     }
   },
   mounted() {
-
     const title = document.getElementById("title");
 
+    console.log(title.scrollHeight);
+    console.log(title.clientHeight);
+
     const getTitle = () => {
-      if (window.innerWidth > 900) {
-        return this.pages.find(page => page.slug === 'home').title.rendered;
+      if (title.scrollHeight > title.clientHeight) {
+        return this.siteTitle.split(" ").map(word => word.charAt(0)).join("");
       } else {
-        return this.pages.find(page => page.slug === 'home').title.rendered.split(" ").map(word => word.charAt(0)).join("");
+        return this.siteTitle;
       }
     };
 
@@ -31,32 +36,20 @@ export default {
     };
 
     window.addEventListener('resize', resizeHandler);
-
   },
 };
 
 </script>
 
 <template>
-      <div id="header">
-        <a  href="http://44.207.42.197:3000" id="title">
-          {{ pages.find(page => page.slug === 'home').title.rendered }}
-        </a>
-        <p id="menu">
-          <a :href="pages.find(page => page.slug === 'about').link" :class="{ active: isActive('about') }">
-            {{ pages.find(page => page.slug === 'about').title.rendered }}
-          </a>
-          <a :href="pages.find(page => page.slug === 'jjs').link" :class="{ active: isActive('jjs') }">
-            {{ pages.find(page => page.slug === 'jjs').title.rendered }}
-          </a>
-          <a :href="pages.find(page => page.slug === 'publications').link" :class="{ active: isActive('publications') }">
-            {{ pages.find(page => page.slug === 'publications').title.rendered }}
-          </a>
-          <a :href="pages.find(page => page.slug === 'team').link" :class="{ active: isActive('team') }">
-            {{ pages.find(page => page.slug === 'team').title.rendered }}
-          </a>
-        </p>
-      </div>
+  <div id="header">
+    <a  href="http://44.207.42.197:3000" id="title" :title="siteTitle">
+      {{ siteTitle }}
+    </a>
+    <p id="menu">
+      <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url">{{ item.title }}</a>
+    </p>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -64,15 +57,16 @@ export default {
 
 #header {
   display: flex;
-  flex-direction: row;
+  position: relative;
   align-items: center;
-  height: 5em;
-  justify-content: center;
+  height: 8em;
+  justify-content: space-between;
+  // z-index: 2;
   width: 100%;
   color: white;
   @media (max-width: $bpw-phone) {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   #title {
@@ -82,6 +76,8 @@ export default {
     margin-right: 50px;
     text-transform: uppercase;
     text-decoration: none;
+    align-self: left;
+    height: 1.5em;
 
     &:hover {
       font-weight: bold;
@@ -89,28 +85,24 @@ export default {
   }
   #menu {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    min-width: fit-content;
+    // align-items: center;
     font-size: 16px;
-    text-align: center;
+    // text-align: center;
+    white-space: nowrap;
+
+    > :not(:last-child) {
+      margin-right: 20px;
+    }
 
     .active {
       color: rgb(255, 128, 0);
     }
 
-    p {
-      width: fit-content;
-      height: fit-content;
-    }
-
     a {
-      display: block;
-      width: fit-content;
-      height: fit-content;
-      text-align: right;
-      padding-right: 10px;
+      // display: block;
       text-decoration: none;
-      text-transform: uppercase;
+      text-transform: lowercase;
 
       @media (max-width: $bpw-phone) {
         font-size: 8px;
@@ -121,6 +113,7 @@ export default {
       }
     }
   }
-}
 
+
+}
 </style>

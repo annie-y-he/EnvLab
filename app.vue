@@ -34,7 +34,7 @@ a {
 .text {
   width: 100%;
   padding: 0 15vw;
-  overflow: visible;
+  // overflow: visible;
   font-size: 18px;
 
   @media (max-width: $bpw-phone) {
@@ -55,7 +55,6 @@ a {
   width: 100vw;
   height: 100vh;
   z-index: 10;
-  background-image: linear-gradient(to bottom, #00000000, #000000);
   overflow-y: scroll;
 }
 
@@ -250,3 +249,4 @@ a {
 }
 
 </style>
+
