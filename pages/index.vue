@@ -7,10 +7,12 @@ export default {
   setup() {
     const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
     const media = useFetch('http://44.207.42.197/wp-json/wp/v2/media').data
+    const menu = useFetch('http://44.207.42.197/wp-json/wp/v2/menu-items').data
 
     return {
       pages,
-      media
+      media,
+      menu,
     }
   },
   mounted() {
@@ -18,9 +20,12 @@ export default {
     const { Collision, Engine, Bounds, Detector, Render, Events, Runner, Composites, Common, MouseConstraint, Mouse, Composite, Bodies, Body, Vector} = Matter;
     const pages = JSON.parse(JSON.stringify(this.pages));
     const media = JSON.parse(JSON.stringify(this.media));
+
+
     const links = document.getElementById("menu");
     const text = document.getElementById("homePage");
 
+    console.log(this.menu);
 
     const engine = Engine.create();
     const world = engine.world;
@@ -530,7 +535,7 @@ export default {
         text-transform: uppercase;
 
         &:hover {
-          color: rgb(255, 128, 0);
+          color: $hover-color;
         }
       }
     }

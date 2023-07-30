@@ -27,6 +27,7 @@ a {
 
   &:hover {
     font-weight: bold;
+    color: $hover-color-dark;
   }
 }
 
@@ -90,7 +91,7 @@ a {
   }
 
   > :last-child {
-    margin-bottom: 40px;
+    margin-bottom: 100px;
   }
 
   > ul {

@@ -117,7 +117,7 @@ export default {
       }
 
       &:hover {
-        color: rgb(255, 128, 0);
+        color: $hover-color;
       }
     }
   }
