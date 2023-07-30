@@ -55,13 +55,18 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/media.scss';
 
+a {
+  &:hover {
+    color: $hover-color;
+  }
+}
+
 #header {
   display: flex;
   position: relative;
   align-items: center;
   height: 8em;
   justify-content: space-between;
-  // z-index: 2;
   width: 100%;
   color: white;
   @media (max-width: $bpw-phone) {
@@ -70,7 +75,7 @@ export default {
   }
 
   #title {
-    font-size: 26px;
+    font-size: 34px;
     display: block;
     min-width: 50px;
     margin-right: 50px;
@@ -86,9 +91,7 @@ export default {
   #menu {
     display: flex;
     min-width: fit-content;
-    // align-items: center;
     font-size: 16px;
-    // text-align: center;
     white-space: nowrap;
 
     > :not(:last-child) {
@@ -106,10 +109,6 @@ export default {
 
       @media (max-width: $bpw-phone) {
         font-size: 8px;
-      }
-
-      &:hover {
-        color: $hover-color;
       }
     }
   }

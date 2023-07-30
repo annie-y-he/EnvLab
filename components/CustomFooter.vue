@@ -12,6 +12,11 @@ const tagline = useFetch('http://44.207.42.197/wp-json/wp/v2/tagline').data
 @import '@/styles/media.scss';
 
 #copyright {
+  a {
+    &:hover {
+      color: $hover-color;
+    }
+  }
   font-size: 10px;
   display: flex;
   width: 100%;

@@ -71,8 +71,8 @@ a {
 }
 
 .footer {
-  margin-top: 120px;
-  margin-bottom: 10px;
+  margin-top: 70px;
+  margin-bottom: 30px;
 
   #copyright > * {
     flex-basis: 50%;
@@ -90,14 +90,11 @@ a {
   }
 
   > :last-child {
-    margin-bottom: 100px;
+    margin-bottom: 20px;
   }
 
-  > ul {
-    margin-left: 50px;
-    ul {
-      margin-left: 30px;
-    }
+  ul {
+    margin-left: 30px;
   }
 
   .has-text-align-center {
@@ -108,54 +105,44 @@ a {
     text-align: right;
   }
   
-  > figure, .wp-block-cover, .wp-block-file {
+  // figure, .wp-block-file {
+  figure {
     margin-left: 30px;
     max-width: 80%;
     height: fit-content;
     width: auto;
 
-    * {
+    img {
+      width: 100px;
       max-width: 100%;
       max-height: 60vh;
       width: auto;
       height: auto;;
     }
-
-    audio {
-      height: 50px;
-      width: 100%;
-    }
-
-    iframe {
-      width: 100%;
-      height: 60vh;
-    }
-
   }
 
-  .wp-block-file {
-    display: flex;
-    height: fit-content;
+  // .wp-block-file {
+  //   display: flex;
+  //   height: fit-content;
 
-    > * {
-      vertical-align: middle;
-    }
+  //   > * {
+  //     vertical-align: middle;
+  //   }
 
-    .wp-block-file__button {
-      color: white;
-      text-decoration: none;
-      height: 2em;
-      font-size: 13px;
-      margin: 0 10px;
-      padding: 5px 2em 0 2em;
-      border-radius: 1em;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-  }
+  //   .wp-block-file__button {
+  //     color: white;
+  //     text-decoration: none;
+  //     height: 2em;
+  //     font-size: 13px;
+  //     margin: 0 10px;
+  //     padding: 5px 2em 0 2em;
+  //     border-radius: 1em;
+  //     background-color: rgba(0, 0, 0, 0.9);
+  //   }
+  // }
 
-  > figcaption {
+  figcaption {
     font-size: 12px;
-    width: 50%;
   }
 
   blockquote {
@@ -180,14 +167,9 @@ a {
   figure{
     width: 100%;
     height: fit-content;
-    width: auto;
-    display: flex;
-    justify-content: center;
 
     * {
-      max-width: 100%;
-      max-height: 60vh;
-      width: auto;
+      width: 100%;
       height: auto;;
     }
   }
