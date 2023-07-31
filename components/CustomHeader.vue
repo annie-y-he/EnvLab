@@ -49,7 +49,7 @@ export default {
 
 <template>
   <div id="header">
-    <a :href="'http://' + useRuntimeConfig().public.customD + ':3000'" id="title" :title="siteTitle">
+    <a :href="'http://' + useRuntimeConfig().public.domain + ':3000'" id="title" :title="siteTitle">
       {{ siteTitle }}
     </a>
     <p id="menu">
