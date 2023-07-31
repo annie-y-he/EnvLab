@@ -8,14 +8,20 @@ export default {
     const isActive = computed(() => {
       return (routeName) => useRoute().path === new URL(routeName).pathname;
     });
+    const isExternal = computed(() => {
+      return (routeName) => '44.207.42.197' !== new URL(routeName).hostname;
+    });
+
 
     return {
       menu,
       siteTitle,
       isActive,
+      isExternal,
     }
   },
   mounted() {
+    console.log(new URL('https://jenniferjacquet.com'));
     const title = document.getElementById("title");
 
     console.log(title.scrollHeight);
@@ -47,7 +53,7 @@ export default {
       {{ siteTitle }}
     </a>
     <p id="menu">
-      <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url">{{ item.title }}</a>
+      <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url" :target="isExternal(item.url) ? '_blank' : null" :rel="isExternal(item.url) ? 'noopener noreferrer' : null">{{ item.title }}</a>
     </p>
   </div>
 </template>
