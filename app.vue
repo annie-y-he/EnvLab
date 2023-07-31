@@ -27,7 +27,7 @@ a {
 
   &:hover {
     font-weight: bold;
-    color: $hover-color-dark;
+    color: $hover-color;
   }
 }
 

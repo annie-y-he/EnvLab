@@ -55,12 +55,6 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/media.scss';
 
-a {
-  &:hover {
-    color: $hover-color;
-  }
-}
-
 #header {
   display: flex;
   position: relative;
@@ -99,7 +93,7 @@ a {
     }
 
     .active {
-      color: rgb(255, 128, 0);
+      color: $hover-color;
     }
 
     a {
