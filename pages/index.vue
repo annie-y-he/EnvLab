@@ -13,9 +13,9 @@ export default {
     };
   },
   setup() {
-    const pages = useFetch('http://44.207.42.197/wp-json/wp/v2/pages?_embed').data
-    const media = useFetch('http://44.207.42.197/wp-json/wp/v2/media').data
-    const menu = useFetch('http://44.207.42.197/wp-json/wp/v2/menu-items').data
+    const pages = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/pages?_embed').data
+    const media = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/media').data
+    const menu = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/menu-items').data
 
     return {
       pages,

@@ -2,14 +2,14 @@
 
 export default {
   setup() {
-    const siteTitle = useFetch('http://44.207.42.197/wp-json/wp/v2/site_title').data
-    const menu = useFetch('http://44.207.42.197/wp-json/wp/v2/my_menu').data
+    const siteTitle = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/site_title').data
+    const menu = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/my_menu').data
 
     const isActive = computed(() => {
       return (routeName) => useRoute().path === new URL(routeName).pathname;
     });
     const isExternal = computed(() => {
-      return (routeName) => '44.207.42.197' !== new URL(routeName).hostname;
+      return (routeName) => useRuntimeConfig().public.domain !== new URL(routeName).hostname;
     });
 
 
@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    console.log(new URL('https://jenniferjacquet.com'));
+    console.log('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/site_title');
     const title = document.getElementById("title");
 
     console.log(title.scrollHeight);
@@ -49,7 +49,7 @@ export default {
 
 <template>
   <div id="header">
-    <a  href="http://44.207.42.197:3000" id="title" :title="siteTitle">
+    <a :href="'http://' + useRuntimeConfig().public.customD + ':3000'" id="title" :title="siteTitle">
       {{ siteTitle }}
     </a>
     <p id="menu">
@@ -103,7 +103,6 @@ export default {
     }
 
     a {
-      // display: block;
       text-decoration: none;
       text-transform: lowercase;
 

@@ -1,5 +1,5 @@
 <script setup>
-const tagline = useFetch('http://44.207.42.197/wp-json/wp/v2/tagline').data
+const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/tagline').data
 </script>
 
 <template>
