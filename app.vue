@@ -90,7 +90,7 @@ a {
   }
 
   > :last-child {
-    margin-bottom: 20px;
+    margin-bottom: 70px;
   }
 
   ul {

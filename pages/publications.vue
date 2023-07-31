@@ -35,7 +35,7 @@ console.log(posts);
   
   .title {
     display: block;
-    font-size: 22px;
+    font-size: 28px;
     margin-bottom: 10px;
     text-transform: uppercase;
     font-weight: bold;
