@@ -54,20 +54,7 @@ a {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
   overflow-y: scroll;
-}
-
-.underlay {
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  .cover {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
 
 .footer {

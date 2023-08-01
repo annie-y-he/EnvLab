@@ -427,6 +427,10 @@ export default {
 
 <template>
 
+  <Background />
+
+  <div ref="scene" class="physics"></div>
+
   <div class="overlay">
     <div id="homeHeader">
       <CustomHeader />
@@ -434,12 +438,6 @@ export default {
     <div id="homeFooter">
       <CustomFooter />
     </div>
-  </div>
-
-  <div ref="scene" class="physics"></div>
-
-  <div class="underlay">
-    <img :src="pages.find(page => page.slug === 'home')._embedded['wp:featuredmedia'][0].source_url" alt="Featured Image" class="cover" />
   </div>
 
 </template>
@@ -452,7 +450,6 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  z-index: 2;
 }
 
 .overlay {

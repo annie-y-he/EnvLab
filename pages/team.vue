@@ -3,6 +3,8 @@ const pages = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/
 </script>
 
 <template>
+  <Background />
+
   <div class="overlay">
 
     <div class="text">
@@ -16,10 +18,6 @@ const pages = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/
   </div>
 
   <Physics />
-
-  <div class="underlay">
-    <img :src="pages.find(page => page.slug === 'home')._embedded['wp:featuredmedia'][0].source_url" alt="Featured Image" class="cover" />
-  </div>
 </template>
 
 <style lang="scss">

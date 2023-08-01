@@ -331,7 +331,7 @@ export default {
 
 <template>
 
-    <div ref="scene" class="physics"></div>
+  <div ref="scene" class="physics"></div>
 
 </template>
 
@@ -342,7 +342,6 @@ export default {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 15;
 }
 
 </style>

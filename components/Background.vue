@@ -1,9 +1,8 @@
 <script>
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import vertexShader from "~/shaders/vertex.glsl?raw";
-import fragmentShader from "~/shaders/fragment.glsl?raw";
-import img from "/assets/test.png";
+import vertexShader from "~/shaders/backgroundShader/vertex.glsl?raw";
+import fragmentShader from "~/shaders/backgroundShader/fragment.glsl?raw";
 
 export default {
   setup() {
@@ -14,9 +13,13 @@ export default {
     }
   },
   mounted() {
+
     class Gl {
       constructor() {
+        this.mouseX = 0;
+        this.mouseY = 0;
         this.scene = new THREE.Scene();
+        this.scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
 
         this.camera = new THREE.PerspectiveCamera(
           45,
@@ -35,7 +38,7 @@ export default {
 
         this.clock = new THREE.Clock();
 
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
         this.onResize();
       }
@@ -46,25 +49,32 @@ export default {
       }
 
       createMesh() {
-        this.geometry = new THREE.PlaneGeometry(0.6, 0.6, 32, 32);
+        this.geometry = new THREE.PlaneGeometry(6, 6, 64, 64);
         this.material = new THREE.ShaderMaterial({
           vertexShader,
           fragmentShader,
           uniforms: {
-            uTime: { value: 0.0 },
-            uTexture: { value: new THREE.TextureLoader().load(img) }
+            uTime: { value: 0 },
           },
           transparent: true,
-          side: THREE.DoubleSide,
+          wireframe: true,
         });
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.mesh.position.set(0.0, 0.0, 0.0);
-        this.scene.add(this.mesh);
+        this.floor = new THREE.Mesh(this.geometry, this.material);
+        this.floor.position.set(0.0, -0.3, -1);
+        this.floor.rotation.set(degToRad(-90), 0, degToRad(0));
+
+        this.ceiling = new THREE.Mesh(this.geometry, this.material);
+        this.ceiling.position.set(0.0, 0.4, -1);
+        this.ceiling.rotation.set(degToRad(90), 0, degToRad(180));
+
+        this.scene.add(this.floor);
+        this.scene.add(this.ceiling);
       }
 
       addEvents() {
         window.requestAnimationFrame(this.run.bind(this));
         window.addEventListener("resize", this.onResize.bind(this), false);
+        // window.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
       }
 
       run() {
@@ -75,6 +85,9 @@ export default {
       render() {
         this.material.uniforms.uTime.value = this.clock.getElapsedTime();
         this.renderer.render(this.scene, this.camera);
+        this.camera.rotation.y += (this.mouseX - this.camera.rotation.y) * .000005;
+        this.camera.rotation.x += (this.mouseY - this.camera.rotation.x) * .000005;
+        // this.camera.lookAt(this.scene.position);
       }
 
       onResize() {
@@ -86,7 +99,14 @@ export default {
 
         this.renderer.setSize(w, h);
       }
+
+      onDocumentMouseMove(event) {
+        this.mouseX = (event.clientX - (window.innerWidth / 2)) * 0.3;
+        this.mouseY = (event.clientY - (window.innerHeight / 2)) * 0.3;
+      }
     }
+
+    const degToRad = (degrees) => (degrees * Math.PI) / 180;
 
     const scene = new Gl();
     
@@ -98,7 +118,7 @@ export default {
 
 <template>
   
-  <Background />
+  <div id="gradient"></div>
 
   <canvas id="app"></canvas>
 
@@ -108,6 +128,15 @@ export default {
 
 #app {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#gradient {
+  position: fixed;
+  background-image: linear-gradient(rgb(19, 27, 39), rgb(27, 37, 53), rgb(14, 20, 29));
   top: 0;
   left: 0;
   width: 100vw;

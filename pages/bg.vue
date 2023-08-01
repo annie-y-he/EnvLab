@@ -246,15 +246,17 @@ export default {
       ];
 
       var reflectionCube = new THREE.CubeTextureLoader().load(urls);
+      console.log(reflectionCube);
       reflectionCube.format = THREE.RGBFormat;
 
       var cubeMaterial = new THREE.MeshPhongMaterial({
         color: 0x447080,
-        envMap: reflectionCube,
+        // envMap: reflectionCube,
+        map: new THREE.TextureLoader().load("/img/px.jpg"),
         combine: THREE.MixOperation,
         side: THREE.DoubleSide,
         reflectivity: 0.5,
-        shading: THREE.FlatShading
+        flatShading: true,
       });
 
       moverGroup = new THREE.Object3D();
@@ -405,12 +407,11 @@ export default {
       camera.lookAt(scene.position);
 
       for (var i = 0; i < 2000; i++) {
-        pGeometry.vertices[i].z += 0.5;
-        if (pGeometry.vertices[i].z > 2700) {
-          pGeometry.vertices[i].z = -2000;
+        pGeometry.attributes.position.array[i * 3 + 2] += 0.5;
+        if (pGeometry.attributes.position.array[i * 3 + 2] > 2700) {
+          pGeometry.attributes.position.array[i * 3 + 2] = -2000;
         }
       }
-
 
       pGeometry.verticesNeedUpdate = true;
 

@@ -5,6 +5,9 @@ console.log(posts);
 </script>
 
 <template>
+
+  <Background />
+
   <div class="overlay">
 
     <div class="text">
@@ -24,9 +27,7 @@ console.log(posts);
 
   <Physics />
 
-  <div class="underlay">
-    <img :src="pages.find(page => page.slug === 'home')._embedded['wp:featuredmedia'][0].source_url" alt="Featured Image" class="cover" />
-  </div>
+
 </template>
 
 <style scoped lang="scss">
