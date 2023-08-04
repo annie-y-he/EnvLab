@@ -30,7 +30,7 @@ export default {
 
         this.camera.position.z = 1;
         this.renderer = new THREE.WebGLRenderer({
-          canvas: document.querySelector("#app"),
+          canvas: document.querySelector("#bg"),
           antialias: true,
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -61,11 +61,11 @@ export default {
         });
         this.floor = new THREE.Mesh(this.geometry, this.material);
         this.floor.position.set(0.0, -0.3, -1);
-        this.floor.rotation.set(degToRad(-90), 0, degToRad(0));
+        this.floor.rotation.set(THREE.MathUtils.degToRad(-90), 0, THREE.MathUtils.degToRad(0));
 
         this.ceiling = new THREE.Mesh(this.geometry, this.material);
         this.ceiling.position.set(0.0, 0.4, -1);
-        this.ceiling.rotation.set(degToRad(90), 0, degToRad(180));
+        this.ceiling.rotation.set(THREE.MathUtils.degToRad(90), 0, THREE.MathUtils.degToRad(180));
 
         this.scene.add(this.floor);
         this.scene.add(this.ceiling);
@@ -105,9 +105,7 @@ export default {
         this.mouseY = (event.clientY - (window.innerHeight / 2)) * 0.3;
       }
     }
-
-    const degToRad = (degrees) => (degrees * Math.PI) / 180;
-
+    
     const scene = new Gl();
     
     scene.init();
@@ -117,16 +115,16 @@ export default {
 </script>
 
 <template>
-  
+
   <div id="gradient"></div>
 
-  <canvas id="app"></canvas>
+  <canvas id="bg"></canvas>
 
 </template>
 
 <style scoped lang="scss">  
 
-#app {
+#bg {
   position: fixed;
   top: 0;
   left: 0;

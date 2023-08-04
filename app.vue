@@ -33,11 +33,10 @@ a {
 
 .text {
   width: 100%;
-  padding: 0 15vw;
-  // overflow: visible;
+  padding: 0 20vw;
   font-size: 18px;
 
-  @media (max-width: $bpw-phone) {
+  @media (max-width: $bpw-tablet) {
     padding: 0;
   }
 }
@@ -51,7 +50,6 @@ a {
 
 .overlay {
   position: fixed;
-  bottom: 0;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
@@ -94,17 +92,20 @@ a {
   
   // figure, .wp-block-file {
   figure {
-    margin-left: 30px;
-    max-width: 80%;
+    width: 100%;
     height: fit-content;
     width: auto;
 
     img {
-      width: 100px;
-      max-width: 100%;
-      max-height: 60vh;
-      width: auto;
-      height: auto;;
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: min(50vw, 80vh);
+      border-radius: 20px;
     }
   }
 
@@ -129,7 +130,7 @@ a {
   // }
 
   figcaption {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   blockquote {

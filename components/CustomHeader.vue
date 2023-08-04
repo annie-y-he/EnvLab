@@ -21,11 +21,7 @@ export default {
     }
   },
   mounted() {
-    console.log('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/site_title');
     const title = document.getElementById("title");
-
-    console.log(title.scrollHeight);
-    console.log(title.clientHeight);
 
     const getTitle = () => {
       if (title.scrollHeight > title.clientHeight) {
@@ -69,7 +65,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   color: white;
-  @media (max-width: $bpw-phone) {
+  @media (max-width: $bpw-tablet) {
     padding-left: 20px;
     padding-right: 20px;
   }

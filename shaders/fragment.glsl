@@ -5,7 +5,7 @@ varying float vWave;
 uniform sampler2D uTexture;
 
 void main() {
-  float wave = vWave * 0.25;
+  float wave = vWave * 0.9;
   vec4 textureColor = texture2D(uTexture, vUv);
 
   if (textureColor.a < 0.01) {

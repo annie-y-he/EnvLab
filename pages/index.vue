@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 
 import Matter from 'matter-js';
 
@@ -32,8 +32,6 @@ export default {
 
     const links = document.getElementById("menu");
     const text = document.getElementById("homeHeader");
-
-    console.log(this.menu);
 
     const engine = Engine.create();
     const world = engine.world;
@@ -423,13 +421,15 @@ export default {
   }
 };
 
-</script>
+</script> -->
 
 <template>
 
   <Background />
 
-  <div ref="scene" class="physics"></div>
+  <!-- <div ref="scene" class="physics"></div> -->
+
+  <Fish />
 
   <div class="overlay">
     <div id="homeHeader">
@@ -445,6 +445,11 @@ export default {
 <style scoped lang="scss">
 
 @import '@/styles/media.scss';
+
+#grid {
+  width: 100vw;
+  height: 100vh;
+}
 
 .physics {
   position: fixed;
