@@ -29,9 +29,10 @@ export default {
         this.path = path;
         this.name = path.match(/\/([^\/]+)\.png$/)[1];
         this.v = new THREE.Vector3().setFromSpherical(new THREE.Spherical(vr, THREE.MathUtils.degToRad(-va + 90), THREE.MathUtils.degToRad(90)));
-        this.a = new THREE.Vector3().setFromSpherical(new THREE.Spherical(0, THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(90)));
+        this.a = new THREE.Vector2(0, 0);
         this.av = THREE.MathUtils.degToRad(av);
-        this.r = THREE.MathUtils.degToRad(r);
+        this.maxV = this.v.clone();
+
 
         this.geometry = new THREE.PlaneGeometry(0.6, 0.6, 32, 32);
         this.material = new THREE.ShaderMaterial({
@@ -108,16 +109,15 @@ export default {
 
       createMesh() {
         // (scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0)
-
         this.fish = [
-          new Fish(this.scene, ball,      0.09, 0.45, 0.1, 1.2, 0, 90, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, argo,      -0.5, 0.3, 0.2, 1.3, 0, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, bag,       -0.7, -0.25, 0.3, 0.9, -15, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, globe,     0.65, -0.3, 0.4, 0.5, 0, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, iceberg,   0.4, -0.6, 0.5, 0.9, 20, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, manatees,  0.55, 0.35, 0.6, 1.5, 25, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, pyramids,  0, -0.1, 0.7, 1.8, -20, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
-          new Fish(this.scene, tv,        -0.2, -0.6, 0.8, 0.8, -15, 0, 0, THREE.MathUtils.randFloat(-5, 5)),
+          new Fish(this.scene, ball,      0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5),
+          new Fish(this.scene, argo,      -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
+          new Fish(this.scene, bag,       -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
+          new Fish(this.scene, globe,     0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
+          new Fish(this.scene, iceberg,   0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
+          new Fish(this.scene, manatees,  0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2),
+          new Fish(this.scene, pyramids,  0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1),
+          new Fish(this.scene, tv,        -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1),
         ];
       }
 
@@ -132,16 +132,55 @@ export default {
       }
 
       render() {
+        const fieldR = 0.18;
         const deltaTime = this.clock.getDelta();
 
         for (var i = 0; i < this.fish.length; i++) {
-          const fish = this.fish[i];
+          const iFish = this.fish[i];
+          var hasAcc = false;
 
-          fish.material.uniforms.uTime.value += deltaTime;
-          fish.mesh.rotation.z += fish.av * deltaTime;
-          // fish.mesh.position += fish.av * deltaTime;
-          fish.mesh.position.add(fish.v.clone().multiplyScalar(deltaTime));
-          fish.v.add(fish.a.clone().multiplyScalar(deltaTime));
+          iFish.material.uniforms.uTime.value += deltaTime;
+          iFish.mesh.rotation.z += iFish.av * deltaTime;
+          iFish.mesh.position.add(iFish.v.clone().multiplyScalar(deltaTime));
+          iFish.v.x += iFish.a.x * deltaTime * iFish.maxV.length();
+          iFish.v.y += iFish.a.y * deltaTime * iFish.maxV.length();
+          if (iFish.v.length() > iFish.maxV.length()) {
+            iFish.v.normalize().multiplyScalar(iFish.maxV.length());
+          }
+
+          if (iFish.mesh.position.x > this.camera.right - 0.1) {
+            hasAcc = true;
+            iFish.a.add(new THREE.Vector2(-1, 0)).normalize();
+          } else if (iFish.mesh.position.x < this.camera.left + 0.1) {
+            hasAcc = true;
+            iFish.a.add(new THREE.Vector2(1, 0)).normalize();
+          } else if (iFish.mesh.position.y > this.camera.top - 0.1) {
+            hasAcc = true;
+            iFish.a.add(new THREE.Vector2(0, -1)).normalize();
+          } else if (iFish.mesh.position.y < this.camera.bottom + 0.1) {
+            hasAcc = true;
+            iFish.a.add(new THREE.Vector2(0, 1)).normalize();
+          }
+
+          for (var j = i + 1; j < this.fish.length; j++) {
+            const jFish = this.fish[j];
+            const jVec = new THREE.Vector2(jFish.mesh.position.x, jFish.mesh.position.y);
+            const iVec = new THREE.Vector2(iFish.mesh.position.x, iFish.mesh.position.y);
+
+            if (jVec.distanceTo(iVec) < fieldR * (iFish.mesh.scale.x + jFish.mesh.scale.x)) {
+              hasAcc = true;
+              iFish.a.add(iVec.clone().sub(jVec).normalize()).normalize();
+              jFish.a.add(jVec.clone().sub(iVec).normalize()).normalize();
+            }
+          }
+
+          if (!hasAcc) {
+            iFish.a.x = 0;
+            iFish.a.y = 0;
+            if (iFish.v.length() < iFish.maxV.length()) {
+              iFish.v.normalize().multiplyScalar(iFish.maxV.length());
+            }
+          }
         }
 
         this.renderer.render(this.scene, this.camera);

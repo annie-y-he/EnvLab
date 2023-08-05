@@ -6,7 +6,7 @@ export default {
     const menu = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/my_menu').data
 
     const isActive = computed(() => {
-      return (routeName) => useRoute().path === new URL(routeName).pathname;
+      return (routeName) => useRoute().path === new URL(routeName).pathname && useRuntimeConfig().public.domain === new URL(routeName).hostname;
     });
     const isExternal = computed(() => {
       return (routeName) => useRuntimeConfig().public.domain !== new URL(routeName).hostname;
