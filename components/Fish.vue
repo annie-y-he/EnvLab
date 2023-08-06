@@ -16,14 +16,9 @@ import tv from "~/assets/tv.png";
 
 export default {
   setup() {
-    const pages = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/pages?_embed').data
 
-    return {
-      pages,
-    }
   },
   mounted() {
-
     class Fish {
       constructor(scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0) {
         this.path = path;
@@ -44,9 +39,12 @@ export default {
           },
           transparent: true,
           side: THREE.DoubleSide,
+          name: this.name,
         });
 
         this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.name = this.name;
+        this.material.name = this.name;
         if (window.innerWidth > window.innerHeight) {
           this.mesh.position.set(x / window.innerHeight * window.innerWidth, y, z);
         } else {
@@ -83,10 +81,21 @@ export default {
           100,
         );
 
+        this.counter = 0;
+
         this.camera.position.z = 1;
 
         this.w = this.camera.right;
         this.h = this.camera.top;
+
+        this.raycaster = new THREE.Raycaster();
+
+        this.mouse = new THREE.Vector2();
+
+        this.selected = null;
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
 
         this.renderer = new THREE.WebGLRenderer({
           canvas: document.querySelector("#app"),
@@ -124,6 +133,7 @@ export default {
       addEvents() {
         window.requestAnimationFrame(this.run.bind(this));
         window.addEventListener("resize", this.onResize.bind(this), false);
+        window.addEventListener('mousemove', this.onMouseMove.bind(this));
       }
 
       run() {
@@ -184,6 +194,36 @@ export default {
         }
 
         this.renderer.render(this.scene, this.camera);
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+
+        const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+        if (intersects.length > 0) {
+          for (var i = 0; i < intersects.length; i++) {
+            const img = intersects[i].object.material.uniforms.uTexture.value.image;
+            const uv = intersects[i].uv;
+            if(img) {
+              var canvas = document.getElementById("buffer");
+              var context = canvas.getContext('2d', { willReadFrequently: true });
+              if (this.selected != intersects[i].object.name) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0);
+              }
+              var pixelData = context.getImageData(uv.x * 1024, (1 - uv.y) * 1024, 1, 1).data;
+
+              if (pixelData[3] != 0) {
+                document.body.style.cursor = "pointer";
+                this.selected = intersects[i].object.name;
+                break;
+              } else {
+                document.body.style.cursor = "default";
+                this.selected = null;
+              }
+
+            }
+          }
+        }
       }
 
       onResize() {
@@ -217,46 +257,8 @@ export default {
       }
 
       onMouseMove(event) {
-        // Calculate normalized device coordinates (NDC) for the mouse position
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        // Perform the raycasting
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-
-        // Get all intersected objects
-        const intersects = this.raycaster.intersectObjects(this.scene.children, true);
-
-        // Check if there are any intersections
-        if (intersects.length > 0) {
-          // The mouse is over an object
-
-          // Get the first intersected object (closest to the camera)
-          const intersectedObject = intersects[0].object;
-
-          // Check if the pixel at the intersection point is opaque
-          const texture = intersectedObject.material.map;
-          if (texture) {
-            const uv = intersects[0].uv;
-            const pixelColor = getPixelColorAtUV(texture, uv.x, uv.y);
-
-            // Check the alpha value (4th component) of the pixel
-            if (pixelColor[3] > 0.01) {
-              // The pixel is opaque
-
-              // Change the material color to highlight the object
-              intersectedObject.material.color = this.highlightColor;
-            }
-          }
-        } else {
-          // The mouse is not over any object
-
-          // Reset the highlight for the previously intersected object (if any)
-          if (this.intersected) {
-            this.intersected.material.color = new THREE.Color(); // Reset to default color
-          }
-          this.intersected = null;
-        }
       }
     }
 
@@ -271,6 +273,7 @@ export default {
 <template>
   
   <canvas id="app"></canvas>
+  <canvas id="buffer" width="1024" height="1024"></canvas>
 
 </template>
 
@@ -282,6 +285,10 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+#buffer {
+  display: none;
 }
   
 </style>
