@@ -26,8 +26,8 @@ export default {
   },
   mounted() {
     class Fish {
-      constructor(scene, path, glow, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0, sel = false) {
-        this.name = path.match(/\/([^\/]+)\.png$/)[1];
+      constructor(scene, path, glow, name, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0, sel = false) {
+        this.name = name;
         this.v = new THREE.Vector3().setFromSpherical(new THREE.Spherical(vr, THREE.MathUtils.degToRad(-va + 90), THREE.MathUtils.degToRad(90)));
         this.a = new THREE.Vector2(0, 0);
         this.av = THREE.MathUtils.degToRad(av);
@@ -131,14 +131,14 @@ export default {
       createMesh() {
         // (scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0)
         this.fish = [
-          new Fish(this.scene, ball, ballGlow, 0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
-          new Fish(this.scene, argo, argoGlow, -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
-          new Fish(this.scene, bag, bagGlow, -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
-          new Fish(this.scene, globe, globeGlow, 0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
-          new Fish(this.scene, iceberg, icebergGlow, 0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
-          new Fish(this.scene, manatees, manateesGlow, 0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
-          new Fish(this.scene, pyramids, pyramidsGlow, 0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
-          new Fish(this.scene, tv, tvGlow, -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
+          new Fish(this.scene, ball, ballGlow, "ball", 0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
+          new Fish(this.scene, argo, argoGlow, "argo", -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
+          new Fish(this.scene, bag, bagGlow, "bag", -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
+          new Fish(this.scene, globe, globeGlow, "globe", 0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
+          new Fish(this.scene, iceberg, icebergGlow, "iceberg", 0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
+          new Fish(this.scene, manatees, manateesGlow, "manatees", 0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
+          new Fish(this.scene, pyramids, pyramidsGlow, "pyramids", 0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
+          new Fish(this.scene, tv, tvGlow, "tv", -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
         ];
       }
 
@@ -263,6 +263,7 @@ export default {
                 this.selected = intersects[i].object;
                 this.selected.material.uniforms.uTexture.value = this.fish.find((f) => f.name === this.selected.name).glow;
                 console.log(this.selected.name);
+
                 switch (this.selected.name) {
                   case "manatees":
                     console.log(this.menu.find((item) => item.textContent === "Team"));
