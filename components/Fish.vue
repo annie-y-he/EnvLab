@@ -12,22 +12,24 @@ import manatees from "~/assets/manatees.png";
 import pyramids from "~/assets/pyramids.png";
 import tv from "~/assets/tv.png";
 
-
-
 export default {
   setup() {
 
   },
   mounted() {
     class Fish {
-      constructor(scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0) {
-        this.path = path;
+      constructor(scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0, sel = false) {
         this.name = path.match(/\/([^\/]+)\.png$/)[1];
         this.v = new THREE.Vector3().setFromSpherical(new THREE.Spherical(vr, THREE.MathUtils.degToRad(-va + 90), THREE.MathUtils.degToRad(90)));
         this.a = new THREE.Vector2(0, 0);
         this.av = THREE.MathUtils.degToRad(av);
         this.maxV = this.v.clone();
+        this.texture = new THREE.TextureLoader().load(path)
+        this.glow = new THREE.TextureLoader().load(path.slice(0, path.lastIndexOf(".")) + "Glow" + path.slice(path.lastIndexOf(".")));
+        this.selectable = sel;
 
+        this.texture.name = this.name;
+        this.glow.name = this.name + "Glow";
 
         this.geometry = new THREE.PlaneGeometry(0.6, 0.6, 32, 32);
         this.material = new THREE.ShaderMaterial({
@@ -35,7 +37,7 @@ export default {
           fragmentShader,
           uniforms: {
             uTime: { value: 0.0 },
-            uTexture: { value: new THREE.TextureLoader().load(this.path) }
+            uTexture: { value: this.texture }
           },
           transparent: true,
           side: THREE.DoubleSide,
@@ -61,6 +63,8 @@ export default {
       constructor() {
 
         this.scene = new THREE.Scene();
+
+        this.menu = Array.from(document.getElementById("menu").children);
 
         this.camSize = 1;
 
@@ -90,12 +94,12 @@ export default {
 
         this.raycaster = new THREE.Raycaster();
 
-        this.mouse = new THREE.Vector2();
+        this.mouse = new THREE.Vector2(999, 999);
 
         this.selected = null;
+        this.onTop = null;
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
-
 
         this.renderer = new THREE.WebGLRenderer({
           canvas: document.querySelector("#app"),
@@ -119,26 +123,54 @@ export default {
       createMesh() {
         // (scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0)
         this.fish = [
-          new Fish(this.scene, ball,      0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5),
+          new Fish(this.scene, ball,      0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
           new Fish(this.scene, argo,      -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
           new Fish(this.scene, bag,       -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
           new Fish(this.scene, globe,     0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
           new Fish(this.scene, iceberg,   0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
-          new Fish(this.scene, manatees,  0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2),
-          new Fish(this.scene, pyramids,  0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1),
-          new Fish(this.scene, tv,        -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1),
+          new Fish(this.scene, manatees,  0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
+          new Fish(this.scene, pyramids,  0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
+          new Fish(this.scene, tv,        -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
         ];
       }
 
       addEvents() {
         window.requestAnimationFrame(this.run.bind(this));
         window.addEventListener("resize", this.onResize.bind(this), false);
-        window.addEventListener('mousemove', this.onMouseMove.bind(this));
+        window.addEventListener('mousemove', this.updateMouse.bind(this));
+        window.addEventListener('touchstart', this.updateMouse.bind(this));
+        window.addEventListener('touchmove', this.updateMouse.bind(this));
+        window.addEventListener("touchend", this.handleClick.bind(this));
+        window.addEventListener("mouseup", this.handleClick.bind(this));
       }
 
       run() {
         requestAnimationFrame(this.run.bind(this));
         this.render();
+      }
+
+      handleClick(event) {
+        if (this.selected) {
+          switch (this.selected.name) {
+            case "manatees":
+              this.menu.find((item) => item.textContent === "Team").click();
+              break;
+            case "pyramids":
+              this.menu.find((item) => item.textContent === "About").click();
+              break;
+            case "ball":
+              this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
+              break;
+            case "tv":
+              this.menu.find((item) => item.textContent === "Publications").click();
+              break;
+          }
+        }
+
+        if (event.type == "touchend") {
+          this.mouse.x = -999;
+          this.mouse.y = -999;
+        }
       }
 
       render() {
@@ -164,10 +196,10 @@ export default {
           } else if (iFish.mesh.position.x < this.camera.left + 0.1) {
             hasAcc = true;
             iFish.a.add(new THREE.Vector2(1, 0)).normalize();
-          } else if (iFish.mesh.position.y > this.camera.top - 0.1) {
+          } else if (iFish.mesh.position.y > this.camera.top - 0.2) {
             hasAcc = true;
             iFish.a.add(new THREE.Vector2(0, -1)).normalize();
-          } else if (iFish.mesh.position.y < this.camera.bottom + 0.1) {
+          } else if (iFish.mesh.position.y < this.camera.bottom + 0.2) {
             hasAcc = true;
             iFish.a.add(new THREE.Vector2(0, 1)).normalize();
           }
@@ -198,7 +230,6 @@ export default {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         const intersects = this.raycaster.intersectObjects(this.scene.children, true);
-
         if (intersects.length > 0) {
           for (var i = 0; i < intersects.length; i++) {
             const img = intersects[i].object.material.uniforms.uTexture.value.image;
@@ -206,24 +237,56 @@ export default {
             if(img) {
               var canvas = document.getElementById("buffer");
               var context = canvas.getContext('2d', { willReadFrequently: true });
-              if (this.selected != intersects[i].object.name) {
+              if (!this.selected || this.selected.name != intersects[i].object.name) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0);
               }
               var pixelData = context.getImageData(uv.x * 1024, (1 - uv.y) * 1024, 1, 1).data;
 
-              if (pixelData[3] != 0) {
+              if (this.onTop && pixelData[3] != 0 && this.onTop.id == "app" && this.fish.find((f) => f.name === intersects[i].object.name).selectable) {
                 document.body.style.cursor = "pointer";
-                this.selected = intersects[i].object.name;
+                if (this.selected && this.selected != intersects[i].object) {
+                  this.selected.material.uniforms.uTexture.value = this.fish.find((f) => f.name === this.selected.name).texture;
+                  this.menu.forEach((item) => {
+                    item.style.removeProperty('color');
+                    item.style.removeProperty('font-weight');
+                  });
+                }
+                this.selected = intersects[i].object;
+                this.selected.material.uniforms.uTexture.value = this.fish.find((f) => f.name === this.selected.name).glow;
+
+                switch (this.selected.name) {
+                  case "manatees":
+                    this.menu.find((item) => item.textContent === "Team").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Team").style.fontWeight = "bold";
+                    break;
+                  case "pyramids":
+                    this.menu.find((item) => item.textContent === "About").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "About").style.fontWeight = "bold";
+                    break;
+                  case "ball":
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
+                    break;
+                  case "tv":
+                    this.menu.find((item) => item.textContent === "Publications").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Publications").style.fontWeight = "bold";
+                    break;
+                }
+
                 break;
               } else {
                 document.body.style.cursor = "default";
+                intersects[i].object.material.uniforms.uTexture.value = this.fish.find((f) => f.name === intersects[i].object.name).texture;
                 this.selected = null;
+                this.menu.forEach((item) => {
+                  item.style.removeProperty('color');
+                  item.style.removeProperty('font-weight');
+                });
               }
-
             }
           }
-        }
+        } 
       }
 
       onResize() {
@@ -256,9 +319,16 @@ export default {
         this.h = this.camera.top;
       }
 
-      onMouseMove(event) {
-        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      updateMouse(event) {
+        if (event.type == "touchstart" || event.type == "touchmove") {
+          this.mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+          this.mouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+          this.onTop = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
+        } else if (event.type == "mousemove" && this.mouse.x != -999) {
+          this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+          this.onTop = document.elementFromPoint(event.clientX, event.clientY);
+        }
       }
     }
 
@@ -285,6 +355,7 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+  user-select: none;
 }
 
 #buffer {

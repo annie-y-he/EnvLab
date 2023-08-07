@@ -18,7 +18,7 @@ const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-jso
   justify-content: space-between;
   color: white;
   text-transform: uppercase;
-  
+  user-select: none;
   @media (max-width: $bpw-tablet) {
     padding-left: 10px;
     padding-right: 10px;

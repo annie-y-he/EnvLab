@@ -65,6 +65,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   color: white;
+  user-select: none;
   @media (max-width: $bpw-tablet) {
     padding-left: 20px;
     padding-right: 20px;

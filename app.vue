@@ -6,10 +6,21 @@
   </div>
 </template>
 
+<script>
+export default {
+  head: {
+    meta: [
+      { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+    ]
+  }
+}
+</script>
+
 <style lang="scss">
 
 @import '@/styles/media.scss';
-// @import '@/styles/wp-css/style.css';
+@import '@/styles/style.css';
+
 
 @import url('https://fonts.googleapis.com/css?family=Roboto Slab');
 
