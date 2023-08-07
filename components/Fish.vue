@@ -11,6 +11,14 @@ import iceberg from "~/assets/iceberg.png";
 import manatees from "~/assets/manatees.png";
 import pyramids from "~/assets/pyramids.png";
 import tv from "~/assets/tv.png";
+import ballGlow from "~/assets/ballGlow.png";
+import argoGlow from "~/assets/argoGlow.png";
+import bagGlow from "~/assets/bagGlow.png";
+import globeGlow from "~/assets/globeGlow.png";
+import icebergGlow from "~/assets/icebergGlow.png";
+import manateesGlow from "~/assets/manateesGlow.png";
+import pyramidsGlow from "~/assets/pyramidsGlow.png";
+import tvGlow from "~/assets/tvGlow.png";
 
 export default {
   setup() {
@@ -18,14 +26,14 @@ export default {
   },
   mounted() {
     class Fish {
-      constructor(scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0, sel = false) {
+      constructor(scene, path, glow, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0, sel = false) {
         this.name = path.match(/\/([^\/]+)\.png$/)[1];
         this.v = new THREE.Vector3().setFromSpherical(new THREE.Spherical(vr, THREE.MathUtils.degToRad(-va + 90), THREE.MathUtils.degToRad(90)));
         this.a = new THREE.Vector2(0, 0);
         this.av = THREE.MathUtils.degToRad(av);
         this.maxV = this.v.clone();
         this.texture = new THREE.TextureLoader().load(path)
-        this.glow = new THREE.TextureLoader().load(path.slice(0, path.lastIndexOf(".")) + "Glow" + path.slice(path.lastIndexOf(".")));
+        this.glow = new THREE.TextureLoader().load(glow);
         this.selectable = sel;
 
         this.texture.name = this.name;
@@ -123,14 +131,14 @@ export default {
       createMesh() {
         // (scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0)
         this.fish = [
-          new Fish(this.scene, ball,      0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
-          new Fish(this.scene, argo,      -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
-          new Fish(this.scene, bag,       -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
-          new Fish(this.scene, globe,     0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
-          new Fish(this.scene, iceberg,   0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
-          new Fish(this.scene, manatees,  0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
-          new Fish(this.scene, pyramids,  0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
-          new Fish(this.scene, tv,        -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
+          new Fish(this.scene, ball, ballGlow, 0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
+          new Fish(this.scene, argo, argoGlow, -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
+          new Fish(this.scene, bag, bagGlow, -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
+          new Fish(this.scene, globe, globeGlow, 0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
+          new Fish(this.scene, iceberg, icebergGlow, 0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
+          new Fish(this.scene, manatees, manateesGlow, 0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
+          new Fish(this.scene, pyramids, pyramidsGlow, 0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
+          new Fish(this.scene, tv, tvGlow, -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
         ];
       }
 
