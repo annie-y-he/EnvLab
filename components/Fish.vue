@@ -265,18 +265,22 @@ export default {
 
                 switch (this.selected.name) {
                   case "manatees":
+                    console.log(this.menu.find((item) => item.textContent === "Team"));
                     this.menu.find((item) => item.textContent === "Team").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Team").style.fontWeight = "bold";
                     break;
                   case "pyramids":
+                    console.log(this.menu.find((item) => item.textContent === "About"));
                     this.menu.find((item) => item.textContent === "About").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "About").style.fontWeight = "bold";
                     break;
                   case "ball":
+                    console.log(this.menu.find((item) => item.textContent === "Jennifer Jacquet"));
                     this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
                     break;
                   case "tv":
+                    console.log(this.menu.find((item) => item.textContent === "Publications"));
                     this.menu.find((item) => item.textContent === "Publications").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Publications").style.fontWeight = "bold";
                     break;
@@ -329,6 +333,7 @@ export default {
 
       updateMouse(event) {
         if (event.type == "touchstart" || event.type == "touchmove") {
+          console.log(this.menu);
           this.mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
           this.mouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
           this.onTop = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY);
