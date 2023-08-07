@@ -262,7 +262,7 @@ export default {
                 }
                 this.selected = intersects[i].object;
                 this.selected.material.uniforms.uTexture.value = this.fish.find((f) => f.name === this.selected.name).glow;
-
+                console.log(this.selected.name);
                 switch (this.selected.name) {
                   case "manatees":
                     console.log(this.menu.find((item) => item.textContent === "Team"));
