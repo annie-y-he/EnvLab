@@ -23,6 +23,10 @@ const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-jso
     padding-left: 10px;
     padding-right: 10px;
   }
+
+  > :last-child {
+    text-align: right;
+  }
   
 }
 

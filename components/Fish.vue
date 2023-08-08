@@ -72,7 +72,11 @@ export default {
 
         this.scene = new THREE.Scene();
 
-        this.menu = Array.from(document.getElementById("menu").children);
+        if (window.getComputedStyle(document.getElementById("menuMobile")).display == "flex") {
+          this.menu = Array.from(document.getElementById("menuMobile").children);
+        } else {
+          this.menu = Array.from(document.getElementById("menu").children);
+        }
 
         this.camSize = 1;
 
@@ -300,6 +304,12 @@ export default {
       onResize() {
         const w = window.innerWidth;
         const h = window.innerHeight;
+
+        if (window.getComputedStyle(document.getElementById("menuMobile")).display == "flex") {
+          this.menu = Array.from(document.getElementById("menuMobile").children);
+        } else {
+          this.menu = Array.from(document.getElementById("menu").children);
+        }
 
         if (w > h) {
           this.camera.bottom = - this.camSize;

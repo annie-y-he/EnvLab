@@ -38,6 +38,9 @@
   padding: 0 50px;
   background-image: linear-gradient(to bottom, #000000, #00000000);
   pointer-events: auto;
+  @media (max-width: $bpw-tablet) {
+    padding: 0 20px;
+  }
 }
 
 #homeFooter {
@@ -47,5 +50,8 @@
   padding: 30px 50px;
   background-image: linear-gradient(to bottom, #00000000, #000000);
   pointer-events: auto;
+  @media (max-width: $bpw-tablet) {
+    padding: 30px 30px;
+  }
 }
 </style>
