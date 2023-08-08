@@ -19,7 +19,7 @@ const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-jso
   color: white;
   text-transform: uppercase;
   user-select: none;
-  @media (max-width: $bpw-tablet) {
+  @media (max-width: $bpw-tabletH) {
     padding-left: 10px;
     padding-right: 10px;
   }

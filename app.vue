@@ -47,7 +47,7 @@ a {
   padding: 0 20vw;
   font-size: 18px;
 
-  @media (max-width: $bpw-tablet) {
+  @media (max-width: $bpw-tabletH) {
     padding: 0;
   }
 }

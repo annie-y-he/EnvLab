@@ -91,7 +91,7 @@ export default {
   color: white;
   user-select: none;
 
-  @media (max-width: $bpw-tablet) {
+  @media (max-width: $bpw-tabletH) {
     padding-left: 20px;
     padding-right: 20px;
   }
