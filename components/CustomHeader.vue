@@ -55,7 +55,7 @@ export default {
     <p id="menu">
       <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url" :target="isExternal(item.url) ? '_blank' : null" :rel="isExternal(item.url) ? 'noopener noreferrer' : null">{{ item.title }}</a>
     </p>
-    <a id="berger" :class="{ hidden: isHome() }" href="#" @click="toggleMenu();">
+    <a id="burger" :class="{ hidden: isHome() }" href="#" @click="toggleMenu();">
       <div id="close">×</div>
       <div id="open">≡</div>
     </a>
@@ -119,7 +119,7 @@ export default {
     }
   }
 
-  #berger {
+  #burger {
     @media (min-width: $bpw-tablet) {
       display: none;
     }
