@@ -63,10 +63,6 @@ a {
   }
 }
 
-html {
-
-}
-
 .overlay {
   position: fixed;
   width: 100vw;
