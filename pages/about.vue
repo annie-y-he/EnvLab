@@ -45,7 +45,7 @@ export default {
 
   <Background />
 
-  <Fish :fishEnv="fishEnv"/>
+  <!-- <Fish :fishEnv="fishEnv"/> -->
 
   <div class="overlay">
 

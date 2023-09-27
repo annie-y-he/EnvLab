@@ -18,22 +18,22 @@ export default {
       return useRoute().name === "index";
     };
 
-    const toggleMenu = () => {
-      const menu = document.querySelector("#menuMobile");
-      const open = document.querySelector("#open");
-      const close = document.querySelector("#close");
+    // const toggleMenu = () => {
+    //   const menu = document.querySelector("#menuMobile");
+    //   const open = document.querySelector("#open");
+    //   const close = document.querySelector("#close");
 
-      if (menu.style.display == "") {
-        menu.style.display = "flex";
-        open.style.display = "none";
-        close.style.display = "block";
+    //   if (menu.style.display == "") {
+    //     menu.style.display = "flex";
+    //     open.style.display = "none";
+    //     close.style.display = "block";
 
-      } else if (menu.style.display = "flex") {
-        menu.style.removeProperty("display");
-        open.style.removeProperty("display");
-        close.style.removeProperty("display");
-      }
-    }
+    //   } else if (menu.style.display = "flex") {
+    //     menu.style.removeProperty("display");
+    //     open.style.removeProperty("display");
+    //     close.style.removeProperty("display");
+    //   }
+    // }
 
     return {
       menu,
@@ -41,7 +41,7 @@ export default {
       isActive,
       isExternal,
       isHome,
-      toggleMenu,
+      // toggleMenu,
     }
   },
   mounted() {
@@ -63,11 +63,9 @@ export default {
       <div id="open">≡</div>
     </a> -->
   </div>
-  <!-- <p id="menuMobile">
-    <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url" :target="isExternal(item.url) ? '_blank' : null" :rel="isExternal(item.url) ? 'noopener noreferrer' : null">{{ item.title }}</a>
-  </p> -->
-  <p id="menuMobile">
-    <template v-for="(item) in menu">
+  
+  <div id="menuMobile">
+    <template v-for="item in menu">
       <a :href="item.url" 
         :class="{ active: isActive(item.url) }"
         :title="item.url" 
@@ -77,7 +75,7 @@ export default {
       </a>
       <hr/>
     </template>
-  </p>
+  </div>
 </template>
 
 <style scoped lang="scss">
