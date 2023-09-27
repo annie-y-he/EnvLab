@@ -5,15 +5,18 @@ export default {
     const siteTitle = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/site_title').data
     const menu = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/my_menu').data
 
-    const isActive = computed(() => {
-      return (routeName) => useRoute().path === new URL(routeName).pathname && useRuntimeConfig().public.domain === new URL(routeName).hostname;
-    });
-    const isExternal = computed(() => {
-      return (routeName) => useRuntimeConfig().public.domain !== new URL(routeName).hostname;
-    });
-    const isHome = computed(() => {
-      return () => useRoute().name === "index";
-    });
+
+    const isActive = (routeName) => {
+      return useRoute().path.replace(/^\/+|\/+$/g, '') === new URL(routeName).pathname.replace(/^\/+|\/+$/g, '') && useRuntimeConfig().public.domain === new URL(routeName).hostname;
+    };
+    
+    const isExternal = (routeName) => {
+      return useRuntimeConfig().public.domain !== new URL(routeName).hostname;
+    };
+    
+    const isHome = () => {
+      return useRoute().name === "index";
+    };
 
     const toggleMenu = () => {
       const menu = document.querySelector("#menuMobile");
@@ -55,13 +58,25 @@ export default {
     <p id="menu">
       <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url" :target="isExternal(item.url) ? '_blank' : null" :rel="isExternal(item.url) ? 'noopener noreferrer' : null">{{ item.title }}</a>
     </p>
-    <a id="burger" :class="{ hidden: isHome() }" href="#" @click="toggleMenu();">
+    <!-- <a id="burger" :class="{ hidden: isHome() }" href="#" @click="toggleMenu();">
       <div id="close">×</div>
       <div id="open">≡</div>
-    </a>
+    </a> -->
   </div>
-  <p id="menuMobile" :class="{ fixed: isHome() }">
+  <!-- <p id="menuMobile">
     <a :href="item.url" v-for="item in menu" :class="{ active: isActive(item.url) }" :title="item.url" :target="isExternal(item.url) ? '_blank' : null" :rel="isExternal(item.url) ? 'noopener noreferrer' : null">{{ item.title }}</a>
+  </p> -->
+  <p id="menuMobile">
+    <template v-for="(item) in menu">
+      <a :href="item.url" 
+        :class="{ active: isActive(item.url) }"
+        :title="item.url" 
+        :target="isExternal(item.url) ? '_blank' : null"
+        :rel="isExternal(item.url) ? 'noopener noreferrer' : null">
+        {{ item.title }}
+      </a>
+      <hr/>
+    </template>
   </p>
 </template>
 
@@ -72,13 +87,6 @@ export default {
 
 .hidden {
   display: none;
-}
-
-.fixed {
-  display: flex !important;
-  top: 50px !important;
-  position: fixed !important;
-  right: 20px;
 }
 
 #header {
@@ -92,8 +100,8 @@ export default {
   user-select: none;
 
   @media (max-width: $bpw-tabletH) {
-    padding-left: 20px;
-    padding-right: 20px;
+    justify-content: center;
+    height: 5em;
   }
 
   #title {
@@ -115,33 +123,34 @@ export default {
     }
 
     @media (max-width: $bpw-tablet) {
-      font-size: 20px;
+      font-size: 35px;
+      margin: 0;
     }
   }
 
-  #burger {
-    @media (min-width: $bpw-tablet) {
-      display: none;
-    }
-    * {
-      font-family: 'Noto Sans Math', sans-serif;
-    }
-    font-size: 36px;
-    text-decoration: none;
+  // #burger {
+  //   @media (min-width: $bpw-tablet) {
+  //     display: none;
+  //   }
+  //   * {
+  //     font-family: 'Noto Sans Math', sans-serif;
+  //   }
+  //   font-size: 36px;
+  //   text-decoration: none;
 
-    #close {
-      display: none;
-    }
+  //   #close {
+  //     display: none;
+  //   }
 
-    #open {
-      display: block;
-    }
+  //   #open {
+  //     display: block;
+  //   }
 
-    &:hover {
-      color: white;
-      font-weight: normal;
-    }
-  }
+  //   &:hover {
+  //     color: white;
+  //     font-weight: normal;
+  //   }
+  // }
 
   #menu {
     display: flex;
@@ -172,15 +181,14 @@ export default {
   @media (min-width: $bpw-tablet) {
     display: none !important;
   }
-  display: none;
+  display: flex;
   position: relative;
-  top: -20px;
   min-width: fit-content;
   font-size: 16px;
   white-space: nowrap;
   flex-direction: column;
-  margin-right: 20px;
-
+  margin-bottom: 30px;
+  
   .active {
     color: $hover-color;
   }
@@ -192,9 +200,13 @@ export default {
   a {
     text-decoration: none;
     text-transform: lowercase;
-    text-align: right;
+    text-align: center;
     height: 2em;
     color: white;
+  }
+
+  hr {
+    margin-bottom: 8px;
   }
 }
 </style>

@@ -45,10 +45,10 @@ a {
 .text {
   width: 100%;
   padding: 0 20vw;
-  font-size: 18px;
+  font-size: 1rem;
 
   @media (max-width: $bpw-tabletH) {
-    padding: 0;
+    padding: 15px;
   }
 }
 
@@ -57,6 +57,14 @@ a {
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   padding: 50px;
+  @media (max-width: $bpw-tabletH) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+html {
+
 }
 
 .overlay {

@@ -3,26 +3,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import vertexShader from "~/shaders/vertex.glsl?raw";
 import fragmentShader from "~/shaders/fragment.glsl?raw";
-import ball from "~/assets/ball.png";
-import argo from "~/assets/argo.png";
-import bag from "~/assets/bag.png";
-import globe from "~/assets/globe.png";
-import iceberg from "~/assets/iceberg.png";
-import manatees from "~/assets/manatees.png";
-import pyramids from "~/assets/pyramids.png";
-import tv from "~/assets/tv.png";
-import ballGlow from "~/assets/ballGlow.png";
-import argoGlow from "~/assets/argoGlow.png";
-import bagGlow from "~/assets/bagGlow.png";
-import globeGlow from "~/assets/globeGlow.png";
-import icebergGlow from "~/assets/icebergGlow.png";
-import manateesGlow from "~/assets/manateesGlow.png";
-import pyramidsGlow from "~/assets/pyramidsGlow.png";
-import tvGlow from "~/assets/tvGlow.png";
 
 export default {
-  setup() {
-
+  props: {
+    fishEnv: Array,
   },
   mounted() {
     class Fish {
@@ -69,9 +53,8 @@ export default {
 
     class Gl {
       constructor() {
-
         this.scene = new THREE.Scene();
-
+        this.fish = [];
         if (window.getComputedStyle(document.getElementById("menuMobile")).display == "flex") {
           this.menu = Array.from(document.getElementById("menuMobile").children);
         } else {
@@ -127,23 +110,15 @@ export default {
         this.onResize();
       }
 
-      init() {
-        this.createMesh();
+      init(env) {
+        this.createMesh(env);
         this.addEvents();
       }
 
-      createMesh() {
-        // (scene, path, x = 0, y = 0, z = 0, s = 1, r = 0, va = 0, vr = 0, av = 0)
-        this.fish = [
-          new Fish(this.scene, ball, ballGlow, "ball", 0.09, 0.45, 0.1, 1.2, 0, THREE.MathUtils.randFloat(-180, 180), 0.03, 5, true),
-          new Fish(this.scene, argo, argoGlow, "argo", -0.5, 0.3, 0.2, 1.3, 0, THREE.MathUtils.randFloat(-180, 180), 0, 3),
-          new Fish(this.scene, bag, bagGlow, "bag", -0.7, -0.25, 0.3, 0.9, -15, THREE.MathUtils.randFloat(-180, 180), 0.0225, 2),
-          new Fish(this.scene, globe, globeGlow, "globe", 0.65, -0.3, 0.4, 0.5, 0, THREE.MathUtils.randFloat(-180, 180), 0.0125, 1),
-          new Fish(this.scene, iceberg, icebergGlow, "iceberg", 0.4, -0.6, 0.5, 0.9, 20, THREE.MathUtils.randFloat(-180, 180), 0, -1),
-          new Fish(this.scene, manatees, manateesGlow, "manatees", 0.55, 0.35, 0.6, 1.5, 25, THREE.MathUtils.randFloat(-180, 180), 0, -2, true),
-          new Fish(this.scene, pyramids, pyramidsGlow, "pyramids", 0, -0.1, 0.7, 1.8, -20, THREE.MathUtils.randFloat(-180, 180), 0.045, -1, true),
-          new Fish(this.scene, tv, tvGlow, "tv", -0.2, -0.6, 0.8, 0.8, -15, THREE.MathUtils.randFloat(-180, 180), 0.02, 1, true),
-        ];
+      createMesh(env) {
+        env.forEach(f => {
+          this.fish.push(new Fish(this.scene, f.path, f.glow, f.name, f.x, f.y, f.z, f.s, f.r, THREE.MathUtils.randFloat(-180, 180), f.vr, f.av, f.sel));
+        });
       }
 
       addEvents() {
@@ -174,6 +149,18 @@ export default {
               this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
               break;
             case "tv":
+              this.menu.find((item) => item.textContent === "Publications").click();
+              break;
+            case "argo":
+              this.menu.find((item) => item.textContent === "Team").click();
+              break;
+            case "bag":
+              this.menu.find((item) => item.textContent === "About").click();
+              break;
+            case "globe":
+              this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
+              break;
+            case "iceberg":
               this.menu.find((item) => item.textContent === "Publications").click();
               break;
           }
@@ -284,6 +271,22 @@ export default {
                     this.menu.find((item) => item.textContent === "Publications").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Publications").style.fontWeight = "bold";
                     break;
+                  case "argo":
+                    this.menu.find((item) => item.textContent === "Team").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Team").style.fontWeight = "bold";
+                    break;
+                  case "bag":
+                    this.menu.find((item) => item.textContent === "About").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "About").style.fontWeight = "bold";
+                    break;
+                  case "globe":
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
+                    break;
+                  case "iceberg":
+                    this.menu.find((item) => item.textContent === "Publications").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Publications").style.fontWeight = "bold";
+                    break;
                 }
 
                 break;
@@ -352,7 +355,7 @@ export default {
 
     const scene = new Gl();
     
-    scene.init();
+    scene.init(this.fishEnv);
 
   },
 };
