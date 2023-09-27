@@ -8,10 +8,18 @@
 
 <script>
 export default {
-  head: {
-    meta: [
-      { name: 'viewport', content: 'width=device-width, user-scalable=no' },
-    ]
+  setup() {
+    useHead({
+        title: useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/site_title').data,
+        meta: [
+          { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+          // { name: 'description', content: 'My amazing site.' }
+        ],
+        link: [
+          { rel: 'icon', type: 'image/png', href: useFetch('http://' + useRuntimeConfig().public.domain + '/wp-json/wp/v2/favicon').data }
+          // { rel: 'icon', type: 'image/png', href: 'http://example.com/path-to-your/favicon.png' }
+        ],
+    })
   }
 }
 </script>
