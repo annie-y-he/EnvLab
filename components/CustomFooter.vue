@@ -16,7 +16,6 @@ const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-jso
   display: flex;
   width: 100%;
   justify-content: space-between;
-  color: white;
   text-transform: uppercase;
   user-select: none;
   @media (max-width: $bpw-tabletH) {

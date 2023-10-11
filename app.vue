@@ -62,7 +62,7 @@ a {
 
 .content {
   color: black;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 50px;
   @media (max-width: $bpw-tabletH) {
@@ -89,6 +89,10 @@ a {
   #copyright > :last-child {
     text-align: right;
   }
+}
+
+.fish {
+  pointer-events: none;
 }
 
 .article {

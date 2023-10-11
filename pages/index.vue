@@ -85,6 +85,7 @@ export default {
   width: 100%;
   bottom: 0;
   padding: 30px 50px;
+  color: white;
   background-image: linear-gradient(to bottom, #00000000, #000000);
   pointer-events: auto;
   @media (max-width: $bpw-tablet) {

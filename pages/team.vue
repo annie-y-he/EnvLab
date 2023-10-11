@@ -44,8 +44,6 @@ export default {
 <template>
   <Background />
 
-  <Fish :fishEnv="fishEnv"/>
-
   <div class="overlay">
 
     <div class="text">
@@ -56,6 +54,10 @@ export default {
       <CustomFooter class="footer"/>
     </div>
 
+  </div>
+
+  <div class="fish">
+    <Fish :fishEnv="fishEnv"/>
   </div>
 
 </template>
