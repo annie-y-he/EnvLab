@@ -30,12 +30,12 @@ export default {
 @import '@/styles/style.css';
 
 
-@import url('https://fonts.googleapis.com/css?family=Roboto Slab');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 *{
   margin: 0;
   padding: 0;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -81,6 +81,7 @@ a {
 .footer {
   margin-top: 70px;
   margin-bottom: 30px;
+  font-weight: bold;
 
   #copyright > * {
     flex-basis: 50%;
@@ -89,6 +90,7 @@ a {
   #copyright > :last-child {
     text-align: right;
   }
+
 }
 
 .fish {

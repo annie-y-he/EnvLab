@@ -28,13 +28,13 @@ export default {
     return {
       fishEnv: [
         //{ path: ball, glow: ballGlow, name: "ball", x: 0.09, y: 0.45, z: 0.1, s: 1.2, r: 0, vr: 0.03, av: 5, sel: false }, 
-        { path: argo, glow: argoGlow, name: "argo", x: -0.5, y: 0.3, z: 0.2, s: 1.3, r: 79, vr: 0.05, av: 3, sel: false }, 
+        // { path: argo, glow: argoGlow, name: "argo", x: -0.5, y: 0.3, z: 0.2, s: 1.3, r: 79, vr: 0.05, av: 3, sel: false }, 
         //{ path: bag, glow: bagGlow, name: "bag", x: -0.7, y: -0.25, z: 0.3, s: 0.9, r: -15, vr: 0.0225, av: 2, sel: false }, 
         //{ path: globe, glow: globeGlow, name: "globe", x: 0.65, y: -0.3, z: 0.4, s: 0.5, r: 0, vr: 0.0125, av: 1, sel: false }, 
-        //{ path: iceberg, glow: icebergGlow, name: "iceberg", x: 0.4, y: -0.6, z: 0.5, s: 0.9, r: 20, vr: 0, av: -1, sel: false }, 
-        { path: manatees, glow: manateesGlow, name: "manatees", x: 0.55, y: 0.35, z: 0.6, s: 1.5, r: 25, vr: 0.03, av: -2, sel: false }, 
+        { path: iceberg, glow: icebergGlow, name: "iceberg", x: 0.4, y: -0.6, z: 0.5, s: 1.2, r: 20, vr: 0.06, av: -1, sel: false }, 
+        // { path: manatees, glow: manateesGlow, name: "manatees", x: 0.55, y: 0.35, z: 0.6, s: 1.5, r: 25, vr: 0.03, av: -2, sel: false }, 
         //{ path: pyramids, glow: pyramidsGlow, name: "pyramids", x: 0, y: -0.1, z: 0.7, s: 1.8, r: -20, vr: 0.045, av: -1, sel: false }, 
-        //{ path: tv, glow: tvGlow, name: "tv", x: -0.2, y: -0.6, z: 0.8, s: 0.8, r: -15, vr: 0.02, av: 1, sel: false }, 
+        { path: tv, glow: tvGlow, name: "tv", x: -0.2, y: -0.6, z: 0.8, s: 1.3, r: -15, vr: 0.06, av: 1, sel: false }, 
       ],
     }
   },

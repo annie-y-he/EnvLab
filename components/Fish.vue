@@ -129,6 +129,11 @@ export default {
         window.addEventListener('touchmove', this.updateMouse.bind(this));
         window.addEventListener("touchend", this.handleClick.bind(this));
         window.addEventListener("mouseup", this.handleClick.bind(this));
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden) {
+            this.clock.getDelta();
+          }
+        });
       }
 
       run() {
@@ -146,13 +151,13 @@ export default {
               this.menu.find((item) => item.textContent === "About").click();
               break;
             case "ball":
-              this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
+              this.menu.find((item) => item.textContent === "Team").click();
               break;
             case "tv":
               this.menu.find((item) => item.textContent === "Publications").click();
               break;
             case "argo":
-              this.menu.find((item) => item.textContent === "Team").click();
+              this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
               break;
             case "bag":
               this.menu.find((item) => item.textContent === "About").click();
@@ -264,16 +269,16 @@ export default {
                     this.menu.find((item) => item.textContent === "About").style.fontWeight = "bold";
                     break;
                   case "ball":
-                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
-                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
+                    this.menu.find((item) => item.textContent === "Team").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Team").style.fontWeight = "bold";
                     break;
                   case "tv":
                     this.menu.find((item) => item.textContent === "Publications").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Publications").style.fontWeight = "bold";
                     break;
                   case "argo":
-                    this.menu.find((item) => item.textContent === "Team").style.color = "var(--hover-color)";
-                    this.menu.find((item) => item.textContent === "Team").style.fontWeight = "bold";
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
+                    this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
                     break;
                   case "bag":
                     this.menu.find((item) => item.textContent === "About").style.color = "var(--hover-color)";
