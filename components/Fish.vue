@@ -134,6 +134,9 @@ export default {
             this.clock.getDelta();
           }
         });
+        window.addEventListener("focus", () => {
+          this.clock.getDelta();
+        });
       }
 
       run() {
