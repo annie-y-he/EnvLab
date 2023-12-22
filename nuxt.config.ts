@@ -13,6 +13,6 @@ module.exports = {
   },
   server: {
     port: 3000,
-    host: '0.0.0.0',
+    host: '127.0.0.1',
   },
 };
