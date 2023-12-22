@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const domain = '44.207.42.197';
+const domain = 'jacquetlab.com';
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -13,6 +13,6 @@ module.exports = {
   },
   server: {
     port: 3000,
-    host: domain,
+    host: '0.0.0.0',
   },
 };
