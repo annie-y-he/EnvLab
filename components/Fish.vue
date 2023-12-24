@@ -129,14 +129,15 @@ export default {
         window.addEventListener('touchmove', this.updateMouse.bind(this));
         window.addEventListener("touchend", this.handleClick.bind(this));
         window.addEventListener("mouseup", this.handleClick.bind(this));
-        document.addEventListener("visibilitychange", () => {
-          if (!document.hidden) {
-            this.clock.getDelta();
-          }
-        });
-        window.addEventListener("focus", () => {
-          this.clock.getDelta();
-        });
+        // old method for touching delta time
+        // document.addEventListener("visibilitychange", () => {
+        //   if (!document.hidden) {
+        //     this.clock.getDelta();
+        //   }
+        // });
+        // window.addEventListener("focus", () => {
+        //   this.clock.getDelta();
+        // });
       }
 
       run() {
@@ -165,7 +166,7 @@ export default {
             case "bag":
               this.menu.find((item) => item.textContent === "About").click();
               break;
-            case "globe":
+            case "arch":
               this.menu.find((item) => item.textContent === "Jennifer Jacquet").click();
               break;
             case "iceberg":
@@ -182,7 +183,11 @@ export default {
 
       render() {
         const fieldR = 0.18;
-        const deltaTime = this.clock.getDelta();
+        let deltaTime = this.clock.getDelta();
+
+        if (deltaTime > 0.01) {
+          deltaTime = 0.005;
+        }
 
         for (var i = 0; i < this.fish.length; i++) {
           const iFish = this.fish[i];
@@ -287,7 +292,7 @@ export default {
                     this.menu.find((item) => item.textContent === "About").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "About").style.fontWeight = "bold";
                     break;
-                  case "globe":
+                  case "arch":
                     this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.color = "var(--hover-color)";
                     this.menu.find((item) => item.textContent === "Jennifer Jacquet").style.fontWeight = "bold";
                     break;

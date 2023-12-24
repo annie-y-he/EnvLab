@@ -82,15 +82,6 @@ a {
   margin-top: 70px;
   margin-bottom: 30px;
   font-weight: bold;
-
-  #copyright > * {
-    flex-basis: 50%;
-  }
-
-  #copyright > :last-child {
-    text-align: right;
-  }
-
 }
 
 .fish {

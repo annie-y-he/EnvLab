@@ -18,13 +18,18 @@ const tagline = useFetch('http://' + useRuntimeConfig().public.domain + '/wp-jso
   justify-content: space-between;
   text-transform: uppercase;
   user-select: none;
+  @media (min-width: $bpw-tabletH) {
+    > :last-child {
+      text-align: right;
+    }
+  }
+
   @media (max-width: $bpw-tabletH) {
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  > :last-child {
-    text-align: right;
+    line-height: 1rem;
+    flex-direction: column;
+    text-align: center;
   }
   
 }
